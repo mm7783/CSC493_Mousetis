@@ -4,8 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.packtpub.libgdx.mousetis.game.WorldController;
-import com.packtpub.libgdx.mousetis.game.Renderer;
+
 	
 	public class MousetisGDXMain implements ApplicationListener{
 		private static final String TAG = MousetisGDXMain.class.getName();

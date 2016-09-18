@@ -1,5 +1,10 @@
 package com.mousetis.gdx.game;
 
+/**
+ * @author Matt Mousetis
+ */
+
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;

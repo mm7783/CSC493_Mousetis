@@ -1,5 +1,10 @@
 package com.mousetis.gdx.game.desktop;
 
+/**
+ * @author Matt Mousetis
+ */
+
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mousetis.gdx.game.MousetisGdxGame;
@@ -32,7 +37,7 @@ public class DesktopLauncher {
 		cfg.width = 800;
 		cfg.height = 480;
 		
-		new LwjglApplication(new CanyonBunnyMain(), cfg);
+		new LwjglApplication(new MousetisGdxGame(), cfg);
 	}
 	
 	}

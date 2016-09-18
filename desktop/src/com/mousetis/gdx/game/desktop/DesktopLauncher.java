@@ -1,5 +1,13 @@
 package com.mousetis.gdx.game.desktop;
 
+/**
+ * @author Matt Mousetis
+ * 
+ * 
+ * 
+ */
+
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mousetis.gdx.game.MousetisGdxGame;

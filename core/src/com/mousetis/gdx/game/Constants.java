@@ -7,5 +7,8 @@ public class Constants {
 	
 	//height of the viewport
 	public static final float VIEWPORT_HEIGHT = 5.0f;
+	
+	//location of description file for texture atlas
+	public static final String TEXTURE_ATLAS_OBJECTS = "images/Mousetis-gdx-game.pack";
 
 }

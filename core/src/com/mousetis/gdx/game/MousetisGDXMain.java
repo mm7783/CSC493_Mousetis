@@ -4,6 +4,8 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.mousetis.gdx.game.Assets.Assets;
+import com.badlogic.gdx.assets.AssetManager;
 
 	
 	public class MousetisGDXMain implements ApplicationListener{
@@ -15,6 +17,8 @@ import com.badlogic.gdx.graphics.GL20;
 		@Override public void create () { 
 			//set libgdx log level to DEBUG
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
+			//Load assets
+			Assets.instance.init(new AssetManager());
 			//initialize controller and renderer
 			worldController = new WorldController();
 			worldRenderer = new WorldRenderer(worldController);
@@ -30,7 +34,9 @@ import com.badlogic.gdx.graphics.GL20;
 		}
 		@Override public void pause () { }
 		@Override public void resume () { }
-		@Override public void dispose () {
+		@Override public void dispose () 
+		{
 			worldRenderer.dispose();
+			Assets.instance.dispose();
 		}
 }

@@ -9,6 +9,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+import com.mousetis.gdx.game.Assets.Assets;
 
 public class WorldController extends InputAdapter{
 	
@@ -29,21 +32,28 @@ public class WorldController extends InputAdapter{
 
 	private void initTestObjects() {
 		testSprites = new Sprite[5];
-		int width = 32;
-		int height = 32;
-		Pixmap pixmap = createProceduralPixmap(width,height);
-		Texture texture = new Texture(pixmap);
+		//create a list of texture regioins
+		Array<TextureRegion> regions = new Array<TextureRegion>();
+		regions.add(Assets.instance.bunny.head);
+		regions.add(Assets.instance.feather.feather);
+		regions.add(Assets.instance.feather.feather);
+		//create new sprites using a random texture region
 		
 		for(int i = 0;i< testSprites.length;i++)
 		{
-			Sprite spr = new Sprite(texture);
+			Sprite spr = new Sprite(regions.random());
+			//define sprite size to be 1m x 1m in game world
 			spr.setSize(1, 1);
+			//set origin  to sprites center
 			spr.setOrigin(spr.getWidth() / 2.0f, spr.getHeight() / 2.0f);
+			//calculate random position for sprite
 			float randomX = MathUtils.random(-2.0f, 2.0f);
 			float randomY = MathUtils.random(-2.0f, 2.0f);
 			spr.setPosition(randomX,randomY);
+			//put new sprite into array
 			testSprites[i] = spr;
 		}
+		// set first sprite as selected one
 		selectedSprite = 0;
 	}
 

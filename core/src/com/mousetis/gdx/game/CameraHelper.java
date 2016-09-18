@@ -1,5 +1,10 @@
 package com.mousetis.gdx.game;
 
+/**
+ * @author Matt Mousetis
+ */
+
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;

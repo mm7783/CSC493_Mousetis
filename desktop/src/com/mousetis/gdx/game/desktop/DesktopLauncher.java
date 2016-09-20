@@ -10,6 +10,7 @@ package com.mousetis.gdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mousetis.gdx.game.MousetisGDXMain;
 import com.mousetis.gdx.game.MousetisGdxGame;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
@@ -40,7 +41,7 @@ public class DesktopLauncher {
 		cfg.width = 800;
 		cfg.height = 480;
 		
-		new LwjglApplication(new CanyonBunnyMain(), cfg);
+		new LwjglApplication(new MousetisGDXMain(), cfg);
 	}
 	
 	}

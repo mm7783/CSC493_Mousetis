@@ -6,13 +6,16 @@ package com.mousetis.gdx.game;
 
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mousetis.gdx.game.objects.AbstractGameObject;
+
 
 public class CameraHelper {
 	
 	private static final String TAG = CameraHelper.class.getName();
+
+	private AbstractGameObject target;
 	
 	private final float MAX_ZOOM_IN = 0.25f;
 	private final float MAX_ZOOM_OUT = 10.0f;
@@ -20,7 +23,6 @@ public class CameraHelper {
 	private Vector2 position;
 	private float zoom;
 	
-	private Sprite target;
 	
 	public CameraHelper()
 	{
@@ -32,8 +34,8 @@ public class CameraHelper {
 	{
 		if(!hasTarget()) return;
 	
-		position.x = target.getX() + target.getOriginX();
-		position.y = target.getY() + target.getOriginY();
+		position.x = target.position.x + target.origin.x;
+		position.y = target.position.y + target.origin.y;
 	}
 
 	public void setPosition(float x, float y){
@@ -50,14 +52,24 @@ public class CameraHelper {
 
 	public float getZoom() {return zoom;}
 	
-	public void setTarget (Sprite Target) {this.target = Target;}
-	public Sprite getTarget () {return target;}
+	public void setTarget (AbstractGameObject Target) 
+	{
+		this.target = Target;
+	}
+	public AbstractGameObject getTarget () 
+	{
+		return target;
+	}
 	
-	public boolean hasTarget() {
+	public boolean hasTarget() 
+	{
 		return target != null;
 	}
 	
-	public boolean hasTarget(Sprite Target){return hasTarget() && this.target.equals(target);}
+	public boolean hasTarget(AbstractGameObject Target)
+	{
+		return hasTarget() && this.target.equals(target);
+	}
 
 	public void applyTo (OrthographicCamera camera){
 		camera.position.x = position.x;

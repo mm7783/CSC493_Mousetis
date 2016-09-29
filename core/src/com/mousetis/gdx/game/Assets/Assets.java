@@ -9,7 +9,8 @@ package com.mousetis.gdx.game.Assets;
 	import com.badlogic.gdx.assets.AssetDescriptor;
 	import com.badlogic.gdx.assets.AssetErrorListener;
 	import com.badlogic.gdx.assets.AssetManager;
-	import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 	import com.badlogic.gdx.utils.Disposable;
 import com.mousetis.gdx.game.Constants;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -24,13 +25,14 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	private AssetManager assetManager;
 	
+	public AssetFonts fonts;
+	
 	//singleton: prevent instantiation from other classes
 	private Assets() {}
 	
-	public AssetBunny bunny;
-	public AssetRock rock;
-	public AssetGoldCoin goldCoin;
-	public AssetFeather feather;
+	public AssetCharacter character;
+	public AssetGround ground;
+	public AssetFireball fireball;
 	public AssetLevelDecoration levelDecoration;
 	
 	public void init (AssetManager assetManager)
@@ -58,73 +60,90 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 		
 		//create game resource objects
-		bunny = new AssetBunny(atlas);
-		rock = new AssetRock(atlas);
-		goldCoin = new AssetGoldCoin(atlas);
-		feather = new AssetFeather(atlas);
+		fonts = new AssetFonts();
+		character = new AssetCharacter(atlas);
+		ground = new AssetGround(atlas);
+		fireball = new AssetFireball(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
 	}
 	
-	public class AssetBunny
+	//defines the character asset
+	public class AssetCharacter
 	{
 		public final AtlasRegion head;
 		
-		public AssetBunny (TextureAtlas atlas)
+		public AssetCharacter (TextureAtlas atlas)
 		{
-			head = atlas.findRegion("bunny_head");
+			head = atlas.findRegion("character Sprite");
 		}
 	}
 	
-	public class AssetRock 
+	//defines the ground asset
+	public class AssetGround
 	{
-		public final AtlasRegion edge;
-		public final AtlasRegion middle;
+		public final AtlasRegion ground;
 		
-		public AssetRock (TextureAtlas atlas)
+		public AssetGround (TextureAtlas atlas)
 		{
-			edge = atlas.findRegion("rock_edge");
-			middle = atlas.findRegion("rock_middle");
+			ground = atlas.findRegion("Cobblestone");
 		}
 	}
 	
-	public class AssetGoldCoin 
+	//defines the fireball asset
+	public class AssetFireball
 	{
-		public final AtlasRegion goldCoin;
+		public final AtlasRegion fireball;
 		
-		public AssetGoldCoin (TextureAtlas atlas)
+		public AssetFireball (TextureAtlas atlas)
 		{
-			goldCoin = atlas.findRegion("item_gold_coin");
+			fireball = atlas.findRegion("Fireball");
+		}
+		
+	}
+	
+	public class AssetFonts
+	{
+		public final BitmapFont defaultSmall;
+		public final BitmapFont defaultNormal;
+		public final BitmapFont defaultBig;
+		
+		public AssetFonts()
+		{
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+		
+			//set font sizes
+			defaultSmall.setScale(0.75f);
+			defaultNormal.setScale(1.0f);
+			defaultBig.setScale(2.0f);
+			
+			//enable linear texture filtering for smooth fonts
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
 	}
 	
-	public class AssetFeather
-	{
-		public final AtlasRegion feather;
-		
-		public AssetFeather (TextureAtlas atlas)
-		{
-			feather = atlas.findRegion("item_feather");
-		}
-		
-	}
 	
 	public class AssetLevelDecoration
 	{
-		public final AtlasRegion cloud01;
-		public final AtlasRegion cloud02;
-		public final AtlasRegion cloud03;
-		public final AtlasRegion mountainLeft;
-		public final AtlasRegion mountainRight;
-		public final AtlasRegion waterOverlay;
+		public final AtlasRegion character;
+		public final AtlasRegion ground;
+		public final AtlasRegion fireball;
+		public final AtlasRegion building;
 		
 		public AssetLevelDecoration (TextureAtlas atlas)
 		{
-			cloud01 = atlas.findRegion("cloud01");
-			cloud02 = atlas.findRegion("cloud02");
-			cloud03 = atlas.findRegion("cloud03");
-			mountainLeft = atlas.findRegion("mountain_left");
-			mountainRight = atlas.findRegion("mounstain_right");
-			waterOverlay = atlas.findRegion("water_overlay");
+			character = atlas.findRegion("character Sprite");
+			ground = atlas.findRegion("Cobblestone");
+			fireball = atlas.findRegion("Fireball");
+			building = atlas.findRegion("Office Building");
 		}
 	}
 	
@@ -138,7 +157,9 @@ public class Assets implements Disposable, AssetErrorListener
 	public void dispose() 
 	{
 		assetManager.dispose();
-		
+		fonts.defaultBig.dispose();
+		fonts.defaultNormal.dispose();
+		fonts.defaultSmall.dispose();
 	}
 	
 	@Override

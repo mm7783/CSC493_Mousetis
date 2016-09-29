@@ -17,51 +17,39 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mousetis.gdx.game.Assets.Assets;
+import com.mousetis.gdx.game.objects.Ground;
+
 
 public class WorldController extends InputAdapter{
 	
 	private static final String TAG = WorldController.class.getName();
-	public Sprite[] testSprites;
-	public int selectedSprite;
 	public CameraHelper cameraHelper;
+	public Level level;
+	public int lives;
+	public int score;
 	
-	public WorldController() {
+	public WorldController() 
+	{
 		init();
 	}
 	
-	private void init() {
+	//initiates this class
+	private void init() 
+	{
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
-		initTestObjects();
+		lives = Constants.LIVES_START;
+		initLevel();
 	}
 
-	private void initTestObjects() {
-		testSprites = new Sprite[5];
-		//create a list of texture regioins
-		Array<TextureRegion> regions = new Array<TextureRegion>();
-		regions.add(Assets.instance.bunny.head);
-		regions.add(Assets.instance.feather.feather);
-		regions.add(Assets.instance.feather.feather);
-		//create new sprites using a random texture region
-		
-		for(int i = 0;i< testSprites.length;i++)
-		{
-			Sprite spr = new Sprite(regions.random());
-			//define sprite size to be 1m x 1m in game world
-			spr.setSize(1, 1);
-			//set origin  to sprites center
-			spr.setOrigin(spr.getWidth() / 2.0f, spr.getHeight() / 2.0f);
-			//calculate random position for sprite
-			float randomX = MathUtils.random(-2.0f, 2.0f);
-			float randomY = MathUtils.random(-2.0f, 2.0f);
-			spr.setPosition(randomX,randomY);
-			//put new sprite into array
-			testSprites[i] = spr;
-		}
-		// set first sprite as selected one
-		selectedSprite = 0;
+	//initiates the level
+	private void initLevel()
+	{
+		score = 0;
+		level = new Level(Constants.LEVEL_01);
 	}
-
+	
+	//creates a procedureal pixmap
 	private Pixmap createProceduralPixmap(int width, int height) {
 		
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
@@ -74,23 +62,16 @@ public class WorldController extends InputAdapter{
 		return pixmap;
 	}
 
-	public void update (float deltaTime) {
+	//updates the world
+	public void update (float deltaTime) 
+	{
 		handleDebugInput(deltaTime);
-		updateTestObjects(deltaTime);
 		cameraHelper.update(deltaTime);
 	}
 
+	//handles the input
 	private void handleDebugInput(float deltaTime) {
 		if(Gdx.app.getType() != ApplicationType.Desktop) return;
-		
-		float sprMoveSpeed = 5 * deltaTime;
-		if(Gdx.input.isKeyPressed(Keys.A)) moveSelectedSprite(-sprMoveSpeed, 0);
-		
-		if(Gdx.input.isKeyPressed(Keys.D)) moveSelectedSprite(sprMoveSpeed, 0);
-		
-		if(Gdx.input.isKeyPressed(Keys.W)) moveSelectedSprite(0, sprMoveSpeed);
-		
-		if(Gdx.input.isKeyPressed(Keys.A)) moveSelectedSprite(0, -sprMoveSpeed);
 		
 		float camMoveSpeed = 5 * deltaTime;
 		float camMoveSpeedAccelerationFactor = 5;
@@ -123,18 +104,6 @@ public class WorldController extends InputAdapter{
 		
 		cameraHelper.setPosition(x, y);
 	}
-
-	private void moveSelectedSprite(float x, float y) {
-		testSprites[selectedSprite].translate(x, y);
-		
-	}
-
-	private void updateTestObjects(float deltaTime) {
-		float rotation = testSprites[selectedSprite].getRotation();
-		rotation += 90 * deltaTime;
-		rotation %= 360;
-		testSprites[selectedSprite].setRotation(rotation);
-	}
 	
 	@Override
 	public boolean keyUp (int keycode)
@@ -144,21 +113,7 @@ public class WorldController extends InputAdapter{
 			init();
 			Gdx.app.debug(TAG, "Game world reset");
 		}
-		else if(keycode == Keys.SPACE)
-		{
-			selectedSprite = (selectedSprite +1) % testSprites.length;
-			if(cameraHelper.hasTarget())
-			{
-				cameraHelper.setTarget(testSprites[selectedSprite]);
-			}
-			Gdx.app.debug(TAG, "Sprite #"+ selectedSprite + "selected");
-			
-	
-		}
-		else if(keycode == Keys.ENTER){
-			cameraHelper.setTarget(cameraHelper.hasTarget() ? null : testSprites[selectedSprite]);
-			Gdx.app.debug(TAG, "Camera follow enabled: "+ cameraHelper.hasTarget());
-		}
+
 		return false;
 	}
 }

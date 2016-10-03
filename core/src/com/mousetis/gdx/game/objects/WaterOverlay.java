@@ -1,5 +1,9 @@
 package com.mousetis.gdx.game.objects;
 
+/**
+ * @author Matt Mousetis
+ */
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mousetis.gdx.game.Assets.Assets;

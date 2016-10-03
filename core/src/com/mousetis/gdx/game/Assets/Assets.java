@@ -9,21 +9,24 @@ package com.mousetis.gdx.game.Assets;
 	import com.badlogic.gdx.assets.AssetDescriptor;
 	import com.badlogic.gdx.assets.AssetErrorListener;
 	import com.badlogic.gdx.assets.AssetManager;
-	import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 	import com.badlogic.gdx.utils.Disposable;
-	import com.mousetis.gdx.game.Constants;
-	import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-	import com.badlogic.gdx.graphics.Texture;
+import com.mousetis.gdx.game.Constants;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.Texture;
 	import com.badlogic.gdx.graphics.Texture.TextureFilter;
-	import com.badlogic.gdx.graphics.g2d.BitmapFont;
-	
+
 public class Assets implements Disposable, AssetErrorListener
 {
 	public static final String TAG = Assets.class.getName();
-	public AssetFonts fonts;
+	
 	public static final Assets instance = new Assets();
 	
 	private AssetManager assetManager;
+	
+	public AssetFonts fonts;
 	
 	//singleton: prevent instantiation from other classes
 	private Assets() {}
@@ -33,38 +36,12 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetGoldCoin goldCoin;
 	public AssetFeather feather;
 	public AssetLevelDecoration levelDecoration;
-	
-	public class AssetFonts
-	{
-		public final BitmapFont defaultSmall;
-		public final BitmapFont defaultNormal;
-		public final BitmapFont defaultBig;
-		
-		public AssetFonts()
-		{
-			//create three fonts using LibGdx's 15 px bit map font
-			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-			//create three fonts using LibGdx's 15 px bit map font
-			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-			//create three fonts using LibGdx's 15 px bit map font
-			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
-		
-			//set font sizes
-			defaultSmall.setScale(0.75f);
-			defaultNormal.setScale(1.0f);
-			defaultBig.setScale(2.0f);
-			
-			//enable linear texture filtering for smooth fonts
-			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			
-			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		}
-	}
+	
 	
 	public void init (AssetManager assetManager)
 	{
+		
 		this.assetManager = assetManager;
 		//set asset manager error handler
 		assetManager.setErrorListener(this);
@@ -139,6 +116,36 @@ public class Assets implements Disposable, AssetErrorListener
 		
 	}
 	
+	public class AssetFonts
+	{
+		public final BitmapFont defaultSmall;
+		public final BitmapFont defaultNormal;
+		public final BitmapFont defaultBig;
+		
+		public AssetFonts()
+		{
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+			//create three fonts using LibGdx's 15 px bit map font
+			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"), true);
+		
+			//set font sizes
+			defaultSmall.setScale(0.75f);
+			defaultNormal.setScale(1.0f);
+			defaultBig.setScale(2.0f);
+			
+			//enable linear texture filtering for smooth fonts
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
+	}
+	
+	
 	public class AssetLevelDecoration
 	{
 		public final AtlasRegion cloud01;
@@ -169,9 +176,9 @@ public class Assets implements Disposable, AssetErrorListener
 	public void dispose() 
 	{
 		assetManager.dispose();
-		fonts.defaultSmall.dispose();
-		fonts.defaultNormal.dispose();
 		fonts.defaultBig.dispose();
+		fonts.defaultNormal.dispose();
+		fonts.defaultSmall.dispose();
 	}
 	
 	@Override
@@ -179,5 +186,6 @@ public class Assets implements Disposable, AssetErrorListener
 	{
 		Gdx.app.error(TAG, "Couldn't load asset '"+ asset.fileName + "'", (Exception)throwable);
 	}
+	
 	
 }

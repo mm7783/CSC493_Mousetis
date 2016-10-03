@@ -13,7 +13,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 
 public class DesktopLauncher {
 	
-	public class Main
+	public static class Main
 	{
 		private static boolean rebuildAtlus = true;
 		private static boolean drawDebugOutline = true;

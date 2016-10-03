@@ -27,5 +27,12 @@ public class Constants {
 
 	//amount of lives start
 	public static final int LIVES_START = 3;
+
+	public static final float ITEM_POWERUP_DURATION = 0;
+	
+	//delay after game over
+	public static final float TIME_DELAY_GAME_OVER = 3;
+
+	public static final float ITEM_FEATHER_POWERUP_DURATION = 15;
 	
 }

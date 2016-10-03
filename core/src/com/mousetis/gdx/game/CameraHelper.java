@@ -35,6 +35,9 @@ public class CameraHelper {
 	
 		position.x = target.position.x + target.origin.x;
 		position.y = target.position.y + target.origin.y;
+		
+		//prevent camera from moving down too far
+		position.y = Math.max(-1f, position.y);
 	}
 
 	public void setPosition(float x, float y){
@@ -60,7 +63,7 @@ public class CameraHelper {
 		return hasTarget(target) && this.target.equals(target);
 	}
 	
-	public boolean hasTarget(Sprite Target){return hasTarget(target) && this.target.equals(target);}
+	public boolean hasTarget(){return hasTarget(target) && this.target.equals(target);}
 
 	public void applyTo (OrthographicCamera camera){
 		camera.position.x = position.x;

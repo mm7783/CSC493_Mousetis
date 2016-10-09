@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.Gdx;
 import com.mousetis.gdx.game.Constants;
+import com.mousetis.gdx.game.GamePreferences;
+import com.mousetis.gdx.screens.CharacterSkin;
 
 public class BunnyHead extends AbstractGameObject
 {
@@ -181,6 +183,9 @@ public class BunnyHead extends AbstractGameObject
     public void render (SpriteBatch batch) 
     {
         TextureRegion reg = null;
+        
+        //apply skin color when game object has a feather power up
+        batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
         
         //set special color when game object has the feather
         if(hasFeatherPowerUp)

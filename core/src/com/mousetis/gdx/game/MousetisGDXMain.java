@@ -13,7 +13,8 @@ import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.assets.AssetManager;
 
 	
-	public class MousetisGDXMain implements ApplicationListener{
+	public class MousetisGDXMain implements ApplicationListener
+	{
 		private static final String TAG = MousetisGDXMain.class.getName();
 		
 		private WorldController worldController;

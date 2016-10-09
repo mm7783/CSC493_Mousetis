@@ -1,5 +1,6 @@
 package com.mousetis.gdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
 /**
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.mousetis.gdx.game.GamePreferences;
 
 public class WorldRenderer implements Disposable {
 
@@ -27,6 +29,11 @@ public class WorldRenderer implements Disposable {
 		this.worldController = worldController;
 	}
 	
+	public WorldRenderer(Game game) 
+	{
+		
+	}
+
 	private void init() 
 	{
 		batch = new SpriteBatch();
@@ -56,7 +63,8 @@ public class WorldRenderer implements Disposable {
 		//draw the extra lives icon
 		renderGuiExtraLife(batch);
 		//draw FPS text anchored to  bottom right
-		rederGuiFpsCounter(batch);
+		if(GamePreferences.instance.showFpsCounter)
+			rederGuiFpsCounter(batch);
 		//draw game over text
 		renderGuiGameOverMessage(batch);
 		batch.end();

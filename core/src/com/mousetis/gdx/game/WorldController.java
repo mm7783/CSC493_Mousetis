@@ -7,25 +7,21 @@ package com.mousetis.gdx.game;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
-import com.mousetis.gdx.game.Assets.Assets;
 import com.mousetis.gdx.game.objects.Level;
 import com.badlogic.gdx.math.Rectangle;
 import com.mousetis.gdx.game.objects.Rock;
 import com.mousetis.gdx.game.objects.BunnyHead;
-import com.mousetis.gdx.game.objects.BunnyHead.JUMP_STATE;
 import com.mousetis.gdx.game.objects.Feather;
 import com.mousetis.gdx.game.objects.GoldCoin;
+import com.badlogic.gdx.Game;
+import com.mousetis.gdx.screens.MenuScreen;
 
 public class WorldController extends InputAdapter{
 	
@@ -34,6 +30,7 @@ public class WorldController extends InputAdapter{
 	public Level level;
 	public int lives;
 	public int score;
+	private Game game;
 	
 	//rectangles for collision detection
 	private Rectangle r1 = new Rectangle();
@@ -43,13 +40,16 @@ public class WorldController extends InputAdapter{
 	
 	/**
 	 * constructor for the world controller
+	 * @param game 
 	 * 
 	 */
-	public WorldController() 
+	public WorldController(Game game) 
 	{
+		this.game = game;
 		init();
+		
 	}
-	
+
 	/**
 	 * initializes the level
 	 * 
@@ -59,6 +59,12 @@ public class WorldController extends InputAdapter{
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.bunnyHead);
+	}
+	
+	private void backToMenu()
+	{
+		//switch to menu screen
+		game.setScreen(new MenuScreen(game));
 	}
 	
 	/**
@@ -101,6 +107,7 @@ public class WorldController extends InputAdapter{
 		{
 			timeLeftGameOverDelay -= deltaTime;
 			if(timeLeftGameOverDelay < 0) init();
+			if(timeLeftGameOverDelay < 0) backToMenu();
 		}else
 		{
 			handleInputGame(deltaTime);
@@ -182,6 +189,12 @@ public class WorldController extends InputAdapter{
 			cameraHelper.setTarget(cameraHelper.hasTarget() ? null: level.bunnyHead);
 			Gdx.app.debug(TAG, "Camera follow enabled: " + cameraHelper.hasTarget());
 		}
+		//back to menu
+		else if(keycode == Keys.ESCAPE || keycode == Keys.BACK)
+		{
+			backToMenu();
+		}
+		
 		return false;
 	}
 	

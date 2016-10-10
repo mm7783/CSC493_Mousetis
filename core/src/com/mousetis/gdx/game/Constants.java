@@ -13,26 +13,32 @@ public class Constants {
 	//height of the viewport
 	public static final float VIEWPORT_HEIGHT = 5.0f;
 	
+	//GUI width
+	public static final float VIEWPORT_GUI_WIDTH = 800.0f;
+	
+	//GUI height
+	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
+	
 	//location of description file for texture atlas
 	public static final String TEXTURE_ATLAS_OBJECTS = "images/Mousetis-gdx-game.pack";
 	
 	//location of image file for level 01
 	public static final String LEVEL_01 = "levels/level-01.png";
 
-	//GUI width
-	public static final float VIEWPORT_GUI_WIDTH = 800.0f;
-	
-	//GUI Height
-	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
-
-	//amount of lives start
+	//Amount of extra lives at level start
 	public static final int LIVES_START = 3;
 
-	public static final float ITEM_POWERUP_DURATION = 0;
+	public static final float ITEM_FEATHER_POWERUP_DURATION = 0;
 	
-	//delay after game over
 	public static final float TIME_DELAY_GAME_OVER = 3;
-
-	public static final float ITEM_FEATHER_POWERUP_DURATION = 15;
 	
+	public static final String TEXTURE_ATLAS_UI = "images/images-ui.pack";
+	
+	public static final String TEXTURE_LIBGDX_UI = "images/uiskin.atlas";
+	
+	public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
+	
+	public static final String SKIN_CANYONBUNNY_UI = "images/images-ui.json";
+
+	public static final String PREFERENCES = null;
 }

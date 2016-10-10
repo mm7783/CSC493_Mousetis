@@ -15,6 +15,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -39,7 +40,7 @@ public class WorldController extends InputAdapter{
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
 	
-	public WorldController() 
+	public WorldController(Game game) 
 	{
 		init();
 	}

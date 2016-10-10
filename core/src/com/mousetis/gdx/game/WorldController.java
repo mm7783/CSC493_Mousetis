@@ -50,6 +50,12 @@ public class WorldController extends InputAdapter{
 		
 	}
 
+	public WorldController() 
+	{
+		init();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * initializes the level
 	 * 

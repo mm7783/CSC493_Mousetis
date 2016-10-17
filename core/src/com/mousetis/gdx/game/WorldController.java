@@ -23,7 +23,8 @@ import com.mousetis.gdx.game.objects.GoldCoin;
 import com.badlogic.gdx.Game;
 import com.mousetis.gdx.screens.MenuScreen;
 
-public class WorldController extends InputAdapter{
+public class WorldController extends InputAdapter
+{
 	
 	private static final String TAG = WorldController.class.getName();
 	public CameraHelper cameraHelper;
@@ -31,6 +32,9 @@ public class WorldController extends InputAdapter{
 	public int lives;
 	public int score;
 	private Game game;
+
+	public float livesVisual;
+	public float scoreVisual;
 	
 	//rectangles for collision detection
 	private Rectangle r1 = new Rectangle();
@@ -82,6 +86,7 @@ public class WorldController extends InputAdapter{
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
+		livesVisual = lives;
 		timeLeftGameOverDelay = 0;
 		initLevel();
 	}
@@ -106,30 +111,31 @@ public class WorldController extends InputAdapter{
 	 * updates the world controller based on time
 	 * @param deltaTime
 	 */
-	public void update (float deltaTime) 
-	{
-		handleDebugInput(deltaTime);
-		if(isGameOver())
-		{
-			timeLeftGameOverDelay -= deltaTime;
-			if(timeLeftGameOverDelay < 0) init();
-			if(timeLeftGameOverDelay < 0) backToMenu();
-		}else
-		{
-			handleInputGame(deltaTime);
-		}
-		level.update(deltaTime);
-		testCollisions();
-		cameraHelper.update(deltaTime);
-		if(!isGameOver() && isPlayerInWater())
-		{
-			lives --;
-			if(isGameOver())
-				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
-			else
-				initLevel();
-		}
-	}
+    public void update (float deltaTime) 
+    {
+        handleDebugInput(deltaTime);
+        if (isGameOver()) {
+            timeLeftGameOverDelay -= deltaTime;
+            if (timeLeftGameOverDelay< 0) backToMenu();
+        } else {
+            handleInputGame(deltaTime);
+        }
+        level.update(deltaTime);
+        testCollisions();
+        cameraHelper.update(deltaTime);
+        if (!isGameOver() &&isPlayerInWater()) {
+            lives--;
+            if (isGameOver())
+                timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+            else
+                initLevel();
+        }
+        level.mountains.updateScrollPosition(cameraHelper.getPosition());
+        if (livesVisual> lives)
+            livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+        if (scoreVisual< score)
+            scoreVisual = Math.min(score, scoreVisual + 250 * deltaTime);
+    }
 
 	/**
 	 * handles the input from the player

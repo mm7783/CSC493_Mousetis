@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.mousetis.gdx.game.Constants;
 import com.mousetis.gdx.game.GamePreferences;
 import com.mousetis.gdx.screens.CharacterSkin;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 public class BunnyHead extends AbstractGameObject
 {
@@ -20,6 +21,8 @@ public class BunnyHead extends AbstractGameObject
 	private final float JUMP_TIME_MAX = 0.3f;
 	private final float JUMP_TIME_MIN = 0.1f;
 	private final float JUMP_TIME_OFFSET_FLYING = JUMP_TIME_MAX - 0.018f;
+	
+	public ParticleEffect dustParticles = new ParticleEffect();
 	
 	public enum VIEW_DIRECTION {LEFT, RIGHT}
 	
@@ -63,9 +66,13 @@ public class BunnyHead extends AbstractGameObject
 		//Jump State
 		jumpState = JUMP_STATE.FALLING;
 		timeJumping = 0;
+		
 		//Power-ups
 		hasFeatherPowerUp = false;
 		timeLeftFeatherPowerUp = 0;
+		
+		//Particles
+		dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
 	}
 
 	/**
@@ -122,6 +129,8 @@ public class BunnyHead extends AbstractGameObject
 				setFeatherPowerUp(false);
 			}
 		}
+		
+		dustParticles.update(deltaTime);
 	}
 		
 	/**
@@ -169,7 +178,10 @@ public class BunnyHead extends AbstractGameObject
                 }
         }
         if (jumpState != JUMP_STATE.GROUNDED)
-            super.updateMotionY(deltaTime);
+        {	
+            dustParticles.allowCompletion();
+        	super.updateMotionY(deltaTime);
+        }    
     }
 	
 	public void hasFeatherPowerUp () {}
@@ -183,6 +195,9 @@ public class BunnyHead extends AbstractGameObject
     public void render (SpriteBatch batch) 
     {
         TextureRegion reg = null;
+        
+        //draw particles
+        dustParticles.draw(batch);
         
         //apply skin color when game object has a feather power up
         batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());

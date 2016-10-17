@@ -19,17 +19,26 @@ public class Clouds extends AbstractGameObject
 	private Array<TextureRegion> regClouds;
 	private Array<Cloud> clouds;
 	
+
 	private class Cloud extends AbstractGameObject
 	{
 		private TextureRegion regCloud;
 		
 		public Cloud () {}
-		
+
+		/**
+		 *  Sets the texture region for the cloud
+		 *  @param region
+		 */
 		public void setRegion (TextureRegion region)
 		{
 			regCloud = region;
 		}
 		
+		/**
+		 * renders the cloud
+		 * @param batch
+		 */
 		@Override
 		public void render(SpriteBatch batch)
 		{
@@ -39,13 +48,19 @@ public class Clouds extends AbstractGameObject
 		}
 		
 	}
-	
+	/**
+	 * constructor for clouds
+	 * @param length
+	 */
 	public Clouds (float length)
 	{
 		this.length = length;
 		init();
 	}
 	
+	/**
+	 * initializes the clouds
+	 */
 	private void init()
 	{
 		dimension.set(3.0f, 1.5f);
@@ -66,7 +81,10 @@ public class Clouds extends AbstractGameObject
 		}
 	}
 	
-	
+	/**
+	 * spawns the cloud
+	 * @return cloud
+	 */
 	private Cloud spawnCloud() 
 	{
 		Cloud cloud = new Cloud();
@@ -79,9 +97,19 @@ public class Clouds extends AbstractGameObject
 		pos.y += 1.75; //base position
 		pos.y += MathUtils.random(0.0f, 0.2f) * (MathUtils.randomBoolean() ? 1 : -1); //rnadom additional position
 		cloud.position.set(pos);
+		//speed
+		Vector2 speed = new Vector2();
+		speed.x += 0.5f; //base speed
+		speed.x += MathUtils.random(0.0f, 0.75f);
+		cloud.terminalVelocity.set(speed);
+		speed.x *= -1;//move left
+		cloud.velocity.set(speed);
 		return cloud;
 	}
 
+	/**
+	 * renders the array of the clouds
+	 */
 	@Override
 	public void render(SpriteBatch batch) 
 	{
@@ -91,5 +119,25 @@ public class Clouds extends AbstractGameObject
 		}
 		
 	}
+	
+	/**
+	 * updates the cloud
+	 */
+    @Override
+    public void update (float deltaTime) 
+    {
+        for (int i = clouds.size - 1; i>= 0; i--) 
+        {
+            Cloud cloud = clouds.get(i);
+            cloud.update(deltaTime);
+            if (cloud.position.x< -10) 
+            {
+            // cloud moved outside of world.
+            // destroy and spawn new cloud at end of level.
+                clouds.removeIndex(i);
+                clouds.add(spawnCloud());
+            }
+        }
+    }
 
 }

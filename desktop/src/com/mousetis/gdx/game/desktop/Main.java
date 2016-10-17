@@ -7,14 +7,14 @@ package com.mousetis.gdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.mousetis.gdx.game.MousetisGDXMain;
 import com.mousetis.gdx.game.MousetisGdxGame;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 
-public class DesktopLauncher {
+public class Main {
 	
-	public static class Main
-	{
+
 		private static boolean rebuildAtlus = true;
 		private static boolean drawDebugOutline = true;
 	
@@ -28,17 +28,19 @@ public class DesktopLauncher {
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "assets-raw/images", "../CanyonBunny-desktop/assets/images", "canyonbunny.pack");
+			TexturePacker.process(settings, "assets/images", "C:/Users/mmous/git/MousetisGdxGame/core/assets/images", "canyonbunny");
 		}
 		
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MousetisGdxGame(), cfg);
 		cfg.title = "CanyonBunny";
 		cfg.width = 800;
 		cfg.height = 480;
 		
-		new LwjglApplication(new MousetisGdxGame(), cfg);
+		new LwjglApplication(new MousetisGDXMain(), cfg);
 	}
 	
-	}
+
 }
+	
+
+

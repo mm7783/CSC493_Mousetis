@@ -7,6 +7,8 @@ package com.mousetis.gdx.game.objects;
  import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  import com.badlogic.gdx.graphics.g2d.TextureRegion;
  import com.mousetis.gdx.game.Assets.Assets;
+ import com.badlogic.gdx.Gdx;
+ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 import javafx.geometry.Bounds;
 
@@ -17,6 +19,8 @@ import com.badlogic.gdx.Gdx;
  {
  
  	public static final String TAG = Character.class.getName();
+ 	public ParticleEffect dustParticles = new ParticleEffect();
+ 	
  	
  	private final float JUMP_TIME_MAX = 0.3f;
  	private final float JUMP_TIME_MIN = 0.1f;
@@ -67,6 +71,9 @@ import com.badlogic.gdx.Gdx;
  		//Power-ups
  		hasFireballPowerUp = false;
 		timeLeftFireballPowerUp = 0;
+		
+		//Particles
+		dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
  	}
  
  	/**
@@ -123,6 +130,8 @@ import com.badlogic.gdx.Gdx;
  				setFireballPowerUp(false);
  			}
  		}
+ 		
+ 		dustParticles.update(deltaTime);
 	}
  		
  	/**
@@ -172,8 +181,11 @@ import com.badlogic.gdx.Gdx;
                  }
          }
          if (jumpState != JUMP_STATE.GROUNDED)
-             super.updateMotionY(deltaTime);
-     }
+         {
+             dustParticles.allowCompletion();
+        	 super.updateMotionY(deltaTime);
+         }    
+    }
  	
  	public void hasFeatherPowerUp (boolean pickedUp) 
  	{
@@ -196,6 +208,8 @@ import com.badlogic.gdx.Gdx;
      public void render (SpriteBatch batch) 
      {
          TextureRegion reg = null;
+         
+         dustParticles.draw(batch);
          
          //set special color when game object has the feather
          if(hasFireballPowerUp)

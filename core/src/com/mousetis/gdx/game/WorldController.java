@@ -29,6 +29,9 @@ public class WorldController extends InputAdapter{
 	public int lives;
 	public int score;
 	
+	public float livesVisual;
+	public float scoreVisual;
+	
 	private float timeLeftGameOverDelay;
 	
 	//rectangles for collision detection
@@ -53,6 +56,7 @@ public class WorldController extends InputAdapter{
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
+		livesVisual = lives;
 		timeLeftGameOverDelay = 0;
 		initLevel();
 	}
@@ -61,6 +65,7 @@ public class WorldController extends InputAdapter{
 	private void initLevel()
 	{
 		score = 0;
+		scoreVisual = score;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.character);
 	}
@@ -82,31 +87,31 @@ public class WorldController extends InputAdapter{
 	 * updates the world controller based on time
 	 * @param deltaTime
 	 */
-	public void update (float deltaTime) 
-	{
-		handleDebugInput(deltaTime);
-		if(isGameOver())
-		{
-			timeLeftGameOverDelay -= deltaTime;
-			if(timeLeftGameOverDelay < 0) init();
-			if(timeLeftGameOverDelay < 0) backToMenu();
-		}else
-		{
-			handleInputGame(deltaTime);
-		}
-		level.update(deltaTime);
-		testCollisions();
-		cameraHelper.update(deltaTime);
-		if(!isGameOver() && isPlayerInWater())
-		{
-			lives --;
-			if(isGameOver())
-				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
-			else
-				initLevel();
-		}
-		
-	}
+    public void update (float deltaTime) 
+    {
+        handleDebugInput(deltaTime);
+        if (isGameOver()) {
+            timeLeftGameOverDelay -= deltaTime;
+            if (timeLeftGameOverDelay< 0) backToMenu();
+        } else {
+            handleInputGame(deltaTime);
+        }
+        level.update(deltaTime);
+        testCollisions();
+        cameraHelper.update(deltaTime);
+        if (!isGameOver() &&isPlayerInWater()) {
+            lives--;
+            if (isGameOver())
+                timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+            else
+                initLevel();
+        }
+        level.building.updateScrollPosition(cameraHelper.getPosition());
+        if (livesVisual> lives)
+            livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+		if (scoreVisual< score)
+            scoreVisual = Math.min(score, scoreVisual + 250 * deltaTime);
+    }
 
 	//handles the input
 	private void handleDebugInput(float deltaTime) {

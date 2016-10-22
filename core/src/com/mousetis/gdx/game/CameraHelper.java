@@ -14,6 +14,7 @@ import com.mousetis.gdx.game.objects.AbstractGameObject;
 public class CameraHelper {
 	
 	private static final String TAG = CameraHelper.class.getName();
+	private final float FOLLOW_SPEED = 4.0f;
 	
 	private final float MAX_ZOOM_IN = 0.25f;
 	private final float MAX_ZOOM_OUT = 10.0f;
@@ -36,6 +37,7 @@ public class CameraHelper {
 		position.x = target.position.x + target.origin.x;
 		position.y = target.position.y + target.origin.y;
 		
+		position.lerp(target.position, FOLLOW_SPEED * deltaTime);
 		//prevent camera from moving down too far
 		position.y = Math.max(-1f, position.y);
 	}

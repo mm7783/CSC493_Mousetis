@@ -15,7 +15,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 public class Main {
 	
 
-		private static boolean rebuildAtlus = true;
+		private static boolean rebuildAtlus = false;
 		private static boolean drawDebugOutline = true;
 	
 	
@@ -28,9 +28,9 @@ public class Main {
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "assets/images", "C:/Users/mmous/git/MousetisGdxGame/core/assets/images", "canyonbunny");
+			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny");
 		}
-		
+		//C:/Users/mmous/git/MousetisGdxGame
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "CanyonBunny";
 		cfg.width = 800;

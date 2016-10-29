@@ -6,8 +6,10 @@ package com.mousetis.gdx.game.objects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.Gdx;
+import com.mousetis.gdx.game.AudioManager;
 import com.mousetis.gdx.game.Constants;
 import com.mousetis.gdx.game.GamePreferences;
 import com.mousetis.gdx.screens.CharacterSkin;
@@ -93,12 +95,16 @@ public class BunnyHead extends AbstractGameObject
 		break;
 		case JUMP_RISING: //rising in the air
 			if(!jumpKeyPressed)
-			jumpState = JUMP_STATE.JUMP_FALLING;
-			break;
+			{	
+				AudioManager.instance.play(Assets.instance.sounds.jump);
+				jumpState = JUMP_STATE.JUMP_FALLING;
+				break;
+			}
 		case FALLING: //falling down
 		case JUMP_FALLING: //falling down after jump	
 			if(jumpKeyPressed && hasFeatherPowerUp)
 			{
+				AudioManager.instance.play(Assets.instance.sounds.jumpWithFeather, 1, MathUtils.random(1.0f, 1.1f));
 				timeJumping = JUMP_TIME_OFFSET_FLYING;
 				jumpState = JUMP_STATE.JUMP_RISING;
 			}	

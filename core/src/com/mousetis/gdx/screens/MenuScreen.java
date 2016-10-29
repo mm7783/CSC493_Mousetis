@@ -26,8 +26,10 @@ import com.badlogic.gdx.Game;
  import com.badlogic.gdx.utils.Array;
  import com.badlogic.gdx.utils.viewport.StretchViewport;
  import com.mousetis.gdx.game.Assets.Assets;
- import com.mousetis.gdx.game.Constants;
+import com.mousetis.gdx.game.AudioManager;
+import com.mousetis.gdx.game.Constants;
  import com.mousetis.gdx.game.GamePreferences;
+ 
  
 
 /**
@@ -141,13 +143,15 @@ public class MenuScreen extends AbstractGameScreen
 	}
 
 	@Override
-	public void pause() {
+	public void pause() 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public InputProcessor getInputProcessor() {
+	public InputProcessor getInputProcessor()
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -358,6 +362,7 @@ public class MenuScreen extends AbstractGameScreen
     {
     	saveSettings();
     	onCancelClicked();
+    	AudioManager.instance.onSettingsUpdated();
     }
 
 	/**
@@ -368,6 +373,7 @@ public class MenuScreen extends AbstractGameScreen
 		btnMenuPlay.setVisible(true);
 		btnMenuOptions.setVisible(true);
 		winOptions.setVisible(false);
+		AudioManager.instance.onSettingsUpdated();
 	}
 	
     /**

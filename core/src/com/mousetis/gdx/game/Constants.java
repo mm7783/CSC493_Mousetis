@@ -20,7 +20,7 @@ public class Constants {
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 	
 	//location of description file for texture atlas
-	public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack";
+	public static final String TEXTURE_ATLAS_OBJECTS = "canyonbunny.atlas";
 	
 	//location of image file for level 01
 	public static final String LEVEL_01 = "levels/level-01.png";
@@ -41,4 +41,6 @@ public class Constants {
 	public static final String SKIN_CANYONBUNNY_UI = "images/images-ui.json";
 
 	public static final String PREFERENCES = null;
+
+	public static final float ITEM_POWERUP_DURATION = 0;
 }

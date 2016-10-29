@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.assets.AssetManager;
 
+
 	
 	public class MousetisGDXMain implements ApplicationListener
 	{
@@ -21,10 +22,17 @@ import com.badlogic.gdx.assets.AssetManager;
 		private WorldRenderer worldRenderer;
 		
 		@Override public void create () { 
+			
 			//set libgdx log level to DEBUG
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
+			
 			//Load assets
 			Assets.instance.init(new AssetManager());
+			
+			//load preferences for audio settings and start playing music
+			GamePreferences.instance.load();
+			AudioManager.instance.play(Assets.instance.music.song01);
+			
 			//initialize controller and renderer
 			worldController = new WorldController();
 			worldRenderer = new WorldRenderer(worldController);

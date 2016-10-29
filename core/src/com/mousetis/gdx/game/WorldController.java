@@ -17,6 +17,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.mousetis.gdx.game.objects.Level;
 import com.badlogic.gdx.math.Rectangle;
 import com.mousetis.gdx.game.objects.Rock;
+import com.mousetis.gdx.game.Assets.Assets;
 import com.mousetis.gdx.game.objects.BunnyHead;
 import com.mousetis.gdx.game.objects.Feather;
 import com.mousetis.gdx.game.objects.GoldCoin;
@@ -124,6 +125,7 @@ public class WorldController extends InputAdapter
         testCollisions();
         cameraHelper.update(deltaTime);
         if (!isGameOver() &&isPlayerInWater()) {
+        	AudioManager.instance.play(Assets.instance.sounds.liveLost);
             lives--;
             if (isGameOver())
                 timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -259,6 +261,7 @@ public class WorldController extends InputAdapter
 	private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin)
 	{
 		goldcoin.collected = true;
+		AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
 		score += goldcoin.getScore();
 		Gdx.app.log(TAG, "Gold Coin collected");
 	};
@@ -270,6 +273,7 @@ public class WorldController extends InputAdapter
 	private void onCollisionBunnyWithFeather(Feather feather) 
 	{
 		feather.collected = true;
+		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += feather.getScore();
 		level.bunnyHead.setFeatherPowerUp(true);
 		Gdx.app.log(TAG, "Gold Coin collected");

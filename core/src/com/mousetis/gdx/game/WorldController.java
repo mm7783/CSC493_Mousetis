@@ -15,6 +15,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.mousetis.gdx.game.Assets.Assets;
 import com.mousetis.gdx.game.objects.Character;
 import com.mousetis.gdx.game.objects.Fireball;
 import com.mousetis.gdx.game.objects.Ground;
@@ -100,6 +101,7 @@ public class WorldController extends InputAdapter{
         testCollisions();
         cameraHelper.update(deltaTime);
         if (!isGameOver() &&isPlayerInWater()) {
+        	AudioManager.instance.play(Assets.instance.sounds.liveLost);
             lives--;
             if (isGameOver())
                 timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -235,6 +237,7 @@ public class WorldController extends InputAdapter{
  	private void onCollisionCharacterWithFireball(Fireball fireball) 
  	{
 		fireball.collected = true;
+		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += fireball.getScore();
 		level.character.setFireballPowerUp(true);
 		Gdx.app.log(TAG, "TURBO MODE");

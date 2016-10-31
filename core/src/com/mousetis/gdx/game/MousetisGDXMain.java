@@ -24,6 +24,9 @@ import com.badlogic.gdx.assets.AssetManager;
 			Gdx.app.setLogLevel(Application.LOG_DEBUG);
 			//Load assets
 			Assets.instance.init(new AssetManager());
+			//load preferences for audio stuff
+			GamePreferences.instance.load();
+			AudioManager.instance.play(Assets.instance.music.song01);
 			//initialize controller and renderer
 			worldController = new WorldController();
 			worldRenderer = new WorldRenderer(worldController);

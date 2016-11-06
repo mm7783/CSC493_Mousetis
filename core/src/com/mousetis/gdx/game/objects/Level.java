@@ -12,7 +12,8 @@ import com.badlogic.gdx.utils.Array;
 public class Level 
 {
 	public static final String TAG = Level.class.getName();
-
+	public Array<Carrot> carrots;
+	public Goal goal;
 	
 	/**
 	 * sets the enums for the block type
@@ -24,7 +25,8 @@ public class Level
 		ROCK(0, 255, 0), //green
 		PLAYER_SPAWNPOINT(255, 255, 255), //white
 		ITEM_FEATHER(255, 0 , 255), 	// purple
-		ITEM_GOLD_COIN(255,255,0); 		//yellow
+		ITEM_GOLD_COIN(255,255,0), 		//yellow
+		GOAL(255, 0, 0);				//red
 		
 		private int color;
 		private BLOCK_TYPE (int r, int g, int b)
@@ -67,6 +69,7 @@ public class Level
 		rocks = new Array <Rock>();
 		goldCoins = new Array<GoldCoin>();
 		feathers = new Array<Feather>();
+		carrots = new Array<Carrot>();
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		//scan pixels from top-left to bottom-right
@@ -132,6 +135,14 @@ public class Level
 					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
 					goldCoins.add((GoldCoin)obj);
 				}
+				//goal
+				else if(BLOCK_TYPE.GOAL.sameColor(currentPixel))
+				{
+					obj = new Goal();
+					offsetHeight = -7.0f;
+					obj.position.set(pixelX, baseHeight + offsetHeight);
+					goal = (Goal)obj;
+				}
 				
 				//unkown object/pixel color
 				else
@@ -178,6 +189,9 @@ public class Level
 		//draw mountains
 		mountains.render(batch);
 		
+		//draw goal
+		goal.render(batch);
+		
 		//draw rocks
 		for(Rock rock : rocks)
 			rock.render(batch);
@@ -189,6 +203,10 @@ public class Level
 		//draw feathers
 		for(Feather feather : feathers)
 			feather.render(batch);
+		
+		//draw carrots
+		for(Carrot carrot : carrots)
+			carrot.render(batch);
 		
 		//draw player character
 		bunnyHead.render(batch);

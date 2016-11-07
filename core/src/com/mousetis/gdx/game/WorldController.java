@@ -8,6 +8,13 @@ package com.mousetis.gdx.game;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Application;
@@ -29,6 +36,9 @@ public class WorldController extends InputAdapter{
 	public Level level;
 	public int lives;
 	public int score;
+	
+	// Box2D Collisions
+	public World myWorld;
 	
 	public float livesVisual;
 	public float scoreVisual;
@@ -241,6 +251,7 @@ public class WorldController extends InputAdapter{
 		score += fireball.getScore();
 		level.character.setFireballPowerUp(true);
 		Gdx.app.log(TAG, "TURBO MODE");
+		
 	}
 
 	/**
@@ -301,4 +312,59 @@ public class WorldController extends InputAdapter{
 	 		//switch to menu screen
 	 		Game.setScreen(new MenuScreen(Game));
 	 }
+
+	public void flagForRemoval(Ground block) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void initPhysics()
+	{
+		if (myWorld != null)
+			myWorld.dispose();
+		myWorld = new World(new Vector2(0, -9.81f), true);
+		myWorld.setContactListener(new CollisionHandler(this));  // Not in the book
+		Vector2 origin = new Vector2();
+		for (Ground pieceOfLand : level.ground)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.position.set(pieceOfLand.position);
+			bodyDef.type = BodyType.KinematicBody;
+			Body body = myWorld.createBody(bodyDef);
+			//body.setType(BodyType.DynamicBody);
+			body.setUserData(pieceOfLand);
+			pieceOfLand.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = pieceOfLand.bounds.width / 2.0f;
+			origin.y = pieceOfLand.bounds.height / 2.0f;
+			polygonShape.setAsBox(pieceOfLand.bounds.width / 2.0f, (pieceOfLand.bounds.height-0.04f) / 2.0f, origin, 0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			body.createFixture(fixtureDef);
+			polygonShape.dispose();
+		}
+
+		// For PLayer
+		Character player = level.character;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set(player.position);
+		bodyDef.fixedRotation = true;
+
+		Body body = myWorld.createBody(bodyDef);
+		body.setType(BodyType.DynamicBody);
+		body.setGravityScale(0.0f);
+		body.setUserData(player);
+		player.body = body;
+
+		PolygonShape polygonShape = new PolygonShape();
+		origin.x = (player.bounds.width) / 2.0f;
+		origin.y = (player.bounds.height) / 2.0f;
+		polygonShape.setAsBox((player.bounds.width-0.7f) / 2.0f, (player.bounds.height-0.15f) / 2.0f, origin, 0);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = polygonShape;
+		// fixtureDef.friction = 0.5f;
+		body.createFixture(fixtureDef);
+		polygonShape.dispose();
+	}
 }

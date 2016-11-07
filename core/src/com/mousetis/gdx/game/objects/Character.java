@@ -7,6 +7,7 @@ package com.mousetis.gdx.game.objects;
  import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.mousetis.gdx.game.Assets.Assets;
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -39,6 +40,7 @@ import com.mousetis.gdx.game.Constants;
  	public JUMP_STATE jumpState;
  	public boolean hasFireballPowerUp;
  	public float timeLeftFireballPowerUp;
+	public Body body;
  	
  	/**
  	 * initializes the bunny head
@@ -82,34 +84,38 @@ import com.mousetis.gdx.game.Constants;
  	 * handles the jump states and its transitions
  	 * @param jumpkeypressed
  	 */
- 	public void setJumping (boolean jumpKeyPressed) 
- 	{
- 		switch (jumpState)
- 		{
- 		case GROUNDED:
- 			if(!jumpKeyPressed)
- 			{
- 				AudioManager.instance.play(Assets.instance.sounds.jump);
- 				//start counting jump time from the beginning
- 				timeJumping = 0;
- 				jumpState = JUMP_STATE.JUMP_RISING;
- 			}
- 		break;
- 		case JUMP_RISING: //rising in the air
- 			if(!jumpKeyPressed)
- 			jumpState = JUMP_STATE.JUMP_FALLING;
- 			break;
- 		case FALLING: //falling down
- 		case JUMP_FALLING: //falling down after jump	
- 			if(jumpKeyPressed && hasFireballPowerUp)
- 			{
- 				AudioManager.instance.play(Assets.instance.sounds.jumpWithFeather, 1, MathUtils.random(1.0f, 1.1f));
- 				timeJumping = JUMP_TIME_OFFSET_FLYING;
- 				jumpState = JUMP_STATE.JUMP_RISING;
- 			}	
- 			break;
- 		}	
- 	}
+	public void setJumping(boolean jumpKeyPressed)
+	{
+		switch (jumpState)
+		{
+			case GROUNDED: 
+				if (jumpKeyPressed)
+				{
+					AudioManager.instance.play(Assets.instance.sounds.jump);
+					timeJumping = 0;
+					jumpState = JUMP_STATE.JUMP_RISING;
+					//Gdx.app.log(TAG,"RISING");
+				}
+				else if (velocity.x != 0)
+				{
+					//Gdx.app.log(TAG, "starting particles");
+					dustParticles.setPosition(position.x + dimension.x / 2, position.y+0.1f);
+					dustParticles.start();
+				}
+				else if (velocity.x == 0)
+				{
+					dustParticles.allowCompletion();
+				}
+				break;
+			case JUMP_RISING:
+				if (!jumpKeyPressed)
+					jumpState = JUMP_STATE.JUMP_FALLING;
+				break;
+			case FALLING:
+			case JUMP_FALLING:
+				break;
+		}
+	}
  	
  	/**
  	 * updates the bunny head based on time

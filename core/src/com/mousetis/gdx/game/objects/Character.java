@@ -10,7 +10,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mousetis.gdx.game.Assets.Assets;
  import com.badlogic.gdx.Gdx;
- import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 import javafx.geometry.Bounds;
 
@@ -41,6 +42,10 @@ import com.mousetis.gdx.game.Constants;
  	public boolean hasFireballPowerUp;
  	public float timeLeftFireballPowerUp;
 	public Body body;
+	private Animation rightAnimation;
+	private Animation animation;
+	private Animation leftAnimation;
+	private Animation restingAnimation;
  	
  	/**
  	 * initializes the bunny head
@@ -86,9 +91,11 @@ import com.mousetis.gdx.game.Constants;
  	 */
 	public void setJumping(boolean jumpKeyPressed)
 	{
+		/**
 		switch (jumpState)
 		{
-			case GROUNDED: 
+			case GROUNDED:
+				*/
 				if (jumpKeyPressed)
 				{
 					AudioManager.instance.play(Assets.instance.sounds.jump);
@@ -96,6 +103,7 @@ import com.mousetis.gdx.game.Constants;
 					jumpState = JUMP_STATE.JUMP_RISING;
 					//Gdx.app.log(TAG,"RISING");
 				}
+			/**
 				else if (velocity.x != 0)
 				{
 					//Gdx.app.log(TAG, "starting particles");
@@ -115,36 +123,59 @@ import com.mousetis.gdx.game.Constants;
 			case JUMP_FALLING:
 				break;
 		}
+		*/
 	}
  	
  	/**
  	 * updates the bunny head based on time
  	 * @param deltaTime
+ 	 * @param  
 	 */
- 	@Override
- 	public void update (float deltaTime)
- 	{
- 		super.update(deltaTime);
- 		if(velocity.x != 0)
- 		{
- 			viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
- 		}
- 		
- 		if(timeLeftFireballPowerUp > 0)
- 		{
- 			timeLeftFireballPowerUp -= deltaTime;
- 			if(timeLeftFireballPowerUp < 0)
- 			{
- 				//disable powerup
- 				timeLeftFireballPowerUp = 0;
- 				setFireballPowerUp(false);
- 			}
- 		}
- 		
- 		dustParticles.update(deltaTime);
+	@Override
+	public void update(float deltaTime)
+	{
+		//Gdx.app.log(TAG, "UP stateTime: "+stateTime);
+		updateMotionX(deltaTime);
+		updateMotionY(deltaTime);
+
+		if (body != null)
+		{
+			// Gdx.app.log(TAG, "velY: "+velocity.y+" state: "+jumpState);
+			body.setLinearVelocity(velocity);
+			position.set(body.getPosition());
+		}
+		if (velocity.x != 0)
+		{
+			//Gdx.app.log(TAG, "velX: "+velocity.x+" viewDir: "+viewDirection);
+			if (velocity.x < 0)
+			{
+				if (animation != leftAnimation)
+				{
+					setAnimation(leftAnimation);
+				}
+				viewDirection = VIEW_DIRECTION.LEFT;
+			}
+			else if (velocity.x > 0)
+			{
+				if (animation != rightAnimation)
+					setAnimation(rightAnimation);
+				viewDirection = VIEW_DIRECTION.RIGHT;
+			}
+		}
+		else
+		{
+			setAnimation(restingAnimation);
+		}
+		dustParticles.update(deltaTime);
 	}
+
  		
- 	/**
+ 	private void setAnimation(Animation rightAnimation2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
  	 * sets what the feather does when picked up
  	 * @param boolean picked up
  	 */

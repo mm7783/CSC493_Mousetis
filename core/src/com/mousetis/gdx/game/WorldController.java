@@ -188,29 +188,32 @@ public class WorldController extends InputAdapter{
 	 * handles the input from the player
 	 * @param deltaTime
 	 */
-    private void handleInputGame(float deltaTime) 
-    {
-        if (cameraHelper.hasTarget(level.character)) {
-            // Player Movement
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                level.character.velocity.x = -level.character.terminalVelocity.x;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                level.character.velocity.x = level.character.terminalVelocity.x;
-            } else {
-                // Execute auto-forward movement on non-desktop platform
-                if (Gdx.app.getType() != Application.ApplicationType.Desktop) {
-                    level.character.velocity.x = level.character.terminalVelocity.x;
-                }
-            }
-            // character Jump
-            if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                level.character.setJumping(true);
-            } else {
-                level.character.setJumping(false);
-            }
-        }
-    }
-	
+	private void handleInputGame(float deltaTime)
+	{
+		if (cameraHelper.hasTarget(level.character))
+		{
+			Character player = level.character;
+			if (Gdx.input.isKeyPressed(Keys.LEFT))
+			{
+				player.velocity.x = -player.terminalVelocity.x;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.RIGHT))
+			{
+				player.velocity.x = player.terminalVelocity.x;
+			}
+
+			if (Gdx.input.isKeyPressed(Keys.SPACE))
+			{
+				
+				player.setJumping(true);
+			}
+			else
+			{
+				player.setJumping(false);
+			}
+		}
+	}
+    
 	/**
 	 * tests if there is going to be a collision
 	 * 

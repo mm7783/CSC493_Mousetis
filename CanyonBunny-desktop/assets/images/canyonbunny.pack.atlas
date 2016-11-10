@@ -1,0 +1,13 @@
+
+canyonbunny.pack.png
+size: 128,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bunny_head
+  rotate: false
+  xy: 2, 2
+  size: 122, 82
+  orig: 122, 82
+  offset: 0, 0
+  index: -1

@@ -235,25 +235,34 @@ public class BunnyHead extends AbstractGameObject
     @Override
     public void render (SpriteBatch batch) 
     {
-        TextureRegion reg = null;
-        
-        //draw particles
+        TextureRegion reg;
+
+        // Draw Particles
         dustParticles.draw(batch);
-        
-        //apply skin color when game object has a feather power up
+
+        // Apply Skin Color
         batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
-        
-        //set special color when game object has the feather
-        if(hasFeatherPowerUp)
-        {
-        	batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+
+        float dimCorrectionX = 0;
+        float dimCorrectionY = 0;
+        if (animation != aniNormal) {
+            dimCorrectionX = 0.05f;
+            dimCorrectionY = 0.2f;
         }
-        
-        //draws the image
-        reg = regHead;
-        batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(),reg.getRegionHeight(), false, false);
-		
-        //reset color to white
-        batch.setColor(1, 1, 1 ,1);
+
+        // Set special color when game object has a feather power-up
+        if (hasFeatherPowerUp) {
+            batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+        }
+        // Draw image
+        reg = animation.getKeyFrame(stateTime, true);
+        batch.draw(reg.getTexture(), position.x, position.y, origin.x,
+                origin.y, dimension.x + dimCorrectionX,
+                dimension.y + dimCorrectionY, scale.x, scale.y, rotation,
+                reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(),
+                reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT,
+                false);
+        // Reset color to white
+        batch.setColor(1, 1, 1, 1);
     }
 }

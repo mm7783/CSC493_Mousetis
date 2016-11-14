@@ -14,6 +14,7 @@ import com.mousetis.gdx.game.Constants;
 import com.mousetis.gdx.game.GamePreferences;
 import com.mousetis.gdx.screens.CharacterSkin;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class BunnyHead extends AbstractGameObject
 {
@@ -38,6 +39,11 @@ public class BunnyHead extends AbstractGameObject
 	public boolean hasFeatherPowerUp;
 	public float timeLeftFeatherPowerUp;
 	
+	public Animation aniNormal;
+	public Animation aniCopterTransform;
+	public Animation aniCopterTransformBack;
+	public Animation aniCopterRotate;
+	
 	/**
 	 * initializes the bunny head
 	 *
@@ -53,6 +59,12 @@ public class BunnyHead extends AbstractGameObject
 	 */
 	private void init() 
 	{
+		aniNormal = Assets.instance.bunny.animNormal;
+		aniCopterTransform = Assets.instance.bunny.animCopterTransform;
+		aniCopterTransformBack = Assets.instance.bunny.animCopterTransformBack;
+		aniCopterRotate = Assets.instance.bunny.animCopterRotate;
+		setAnimation(aniNormal);
+		
 		dimension.set(0.5f, 0.5f);
 		regHead = Assets.instance.bunny.head;
 		//center image on game object
@@ -127,16 +139,39 @@ public class BunnyHead extends AbstractGameObject
 		
 		if(timeLeftFeatherPowerUp > 0)
 		{
+			if(animation == aniCopterTransformBack)
+			{
+				setAnimation(aniCopterTransform);
+			}
 			timeLeftFeatherPowerUp -= deltaTime;
 			if(timeLeftFeatherPowerUp < 0)
 			{
 				//disable powerup
 				timeLeftFeatherPowerUp = 0;
 				setFeatherPowerUp(false);
+				setAnimation(aniCopterTransformBack);
 			}
 		}
 		
 		dustParticles.update(deltaTime);
+		
+        // Change animation state according to feather power-up
+        if (hasFeatherPowerUp) {
+            if (animation == aniNormal) {
+                setAnimation(aniCopterTransform);
+            } else if (animation == aniCopterTransform) {
+                if (animation.isAnimationFinished(stateTime))
+                    setAnimation(aniCopterRotate);
+            }
+        } else {
+            if (animation == aniCopterRotate) {
+                if (animation.isAnimationFinished(stateTime))
+                    setAnimation(aniCopterTransformBack);
+            } else if (animation == aniCopterTransformBack) {
+                if (animation.isAnimationFinished(stateTime))
+                    setAnimation(aniNormal);
+            }
+        }
 	}
 		
 	/**

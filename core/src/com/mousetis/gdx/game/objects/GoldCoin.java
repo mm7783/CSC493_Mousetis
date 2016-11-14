@@ -7,6 +7,7 @@ package com.mousetis.gdx.game.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mousetis.gdx.game.Assets.Assets;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GoldCoin extends AbstractGameObject 
 {
@@ -22,6 +23,9 @@ public class GoldCoin extends AbstractGameObject
 	{
 		dimension.set(0.5f, 0.5f);
 		
+		setAnimation(Assets.instance.goldCoin.animGoldCoin);
+		stateTime = MathUtils.random(0.0f, 1.0f);
+		
 		regGoldCoin = Assets.instance.goldCoin.goldCoin;
 		
 		//set bounding box for collision detection
@@ -36,7 +40,7 @@ public class GoldCoin extends AbstractGameObject
 		if(collected)	return;
 		
 		TextureRegion reg = null;
-		reg = regGoldCoin;
+		reg = animation.getKeyFrame(stateTime, true);
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(),reg.getRegionHeight(), false, false);
 		
 	}

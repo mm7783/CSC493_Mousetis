@@ -20,10 +20,10 @@ public class Constants {
 	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
 	
 	//location of description file for texture atlas
-	public static final String TEXTURE_ATLAS_OBJECTS = "images/Mousetis-gdx-game.pack";
+	public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack";
 	
 	//location of image file for level 01
-	public static final String LEVEL_01 = "levels/level-01.png";
+	public static final String LEVEL_01 = "levels/level.png";
 
 	//Amount of extra lives at level start
 	public static final int LIVES_START = 3;
@@ -42,5 +42,5 @@ public class Constants {
 
 	public static final String PREFERENCES = null;
 
-	public static final float ITEM_POWERUP_DURATION = 0;
+	public static final float ITEM_POWERUP_DURATION = 10;
 }

@@ -31,11 +31,11 @@ public class Main
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "assets-raw/images", "../CanyonBunny-desktop/assets/images", "canyonbunny.pack");
+			TexturePacker.process(settings, "assets/images", "../core/assets/images", "canyonbunny");
 		}
 		
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		new LwjglApplication(new MousetisGdxGame(), cfg);
+		new LwjglApplication(new MousetisGDXMain(), cfg);
 		cfg.title = "CanyonBunny";
 		cfg.width = 800;
 		cfg.height = 480;

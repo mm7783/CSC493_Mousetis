@@ -47,14 +47,6 @@ public class Assets implements Disposable, AssetErrorListener
 		assetManager.setErrorListener(this);
 		//load texture atlas
 		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
-		//load sounds
-		assetManager.load("sounds/jump.wav", Sound.class);
-		assetManager.load("sounds/jump_with_feather.wav", Sound.class);
-		assetManager.load("sounds/pickup_coin.wav", Sound.class);
-		assetManager.load("sounds/pickup_feather.wav", Sound.class);
-		assetManager.load("sounds/live_lost.wav", Sound.class);
-		//load music
-		assetManager.load("music/keith303_-_brand_new_highscore.mp3", Music.class);
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: "+ assetManager.getAssetNames().size);
 		

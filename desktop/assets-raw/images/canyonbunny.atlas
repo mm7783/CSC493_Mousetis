@@ -1,6 +1,6 @@
 
 canyonbunny.png
-size: 2048,1024
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -13,28 +13,21 @@ Apple
   index: -1
 building
   rotate: false
-  xy: 386, 430
+  xy: 386, 172
   size: 67, 70
   orig: 67, 70
   offset: 0, 0
   index: -1
-canyonbunny
-  rotate: false
-  xy: 2, 502
-  size: 1024, 512
-  orig: 1024, 512
-  offset: 0, 0
-  index: -1
 character
   rotate: false
-  xy: 1028, 708
+  xy: 644, 452
   size: 50, 48
   orig: 50, 48
   offset: 0, 0
   index: -1
 ground
   rotate: false
-  xy: 1028, 758
+  xy: 386, 244
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

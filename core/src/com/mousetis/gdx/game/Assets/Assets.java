@@ -102,7 +102,7 @@ public class Assets implements Disposable, AssetErrorListener
 		
 		public AssetFireball (TextureAtlas atlas)
 		{
-			fireball = atlas.findRegion("Fireball");
+			fireball = atlas.findRegion("Apple");
 		}
 		
 	}

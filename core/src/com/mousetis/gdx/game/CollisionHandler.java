@@ -185,10 +185,11 @@ public class CollisionHandler implements ContactListener
     	{
     		// Remove the block update the player's score by 1.
     		world.score++;
+    		/**
     		AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
     		AudioManager.instance.play(Assets.instance.sounds.jump);
     		AudioManager.instance.play(Assets.instance.sounds.liveLost);
-
+			*/
     		Ground block = (Ground)objFixture.getBody().getUserData();
     		world.flagForRemoval(block);
     	}

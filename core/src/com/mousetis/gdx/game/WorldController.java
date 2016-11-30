@@ -24,7 +24,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.mousetis.gdx.game.Assets.Assets;
 import com.mousetis.gdx.game.objects.Character;
-import com.mousetis.gdx.game.objects.Fireball;
+import com.mousetis.gdx.game.objects.Apple;
 import com.mousetis.gdx.game.objects.Ground;
 import com.mousetis.gdx.game.screens.MenuScreen;
 
@@ -111,7 +111,7 @@ public class WorldController extends InputAdapter{
         testCollisions();
         cameraHelper.update(deltaTime);
         if (!isGameOver() &&isPlayerInWater()) {
-        	AudioManager.instance.play(Assets.instance.sounds.liveLost);
+        	//AudioManager.instance.play(Assets.instance.sounds.liveLost);
             lives--;
             if (isGameOver())
                 timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -233,7 +233,7 @@ public class WorldController extends InputAdapter{
 		
 		
 		//test collision bunny head with feathers
-		for (Fireball fireball : level.fireballs)
+		for (Apple fireball : level.apples)
 		{
 			if(fireball.collected) continue;
 			r2.set(fireball.position.x, fireball.position.y, fireball.bounds.width, fireball.bounds.height);
@@ -247,10 +247,10 @@ public class WorldController extends InputAdapter{
  	 * handles collision with the fireball
  	 * @param fireball
  	 */
- 	private void onCollisionCharacterWithFireball(Fireball fireball) 
+ 	private void onCollisionCharacterWithFireball(Apple fireball) 
  	{
 		fireball.collected = true;
-		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
+		//AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += fireball.getScore();
 		level.character.setFireballPowerUp(true);
 		Gdx.app.log(TAG, "TURBO MODE");

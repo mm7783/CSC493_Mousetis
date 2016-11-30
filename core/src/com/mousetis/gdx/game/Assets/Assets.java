@@ -34,10 +34,11 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	public AssetCharacter character;
 	public AssetGround ground;
-	public AssetFireball fireball;
+	public AssetApple Apple;
+	public AssetGoldCoin goldCoin;
 	public AssetLevelDecoration levelDecoration;
-	public AssetSounds sounds;
-	public AssetMusic music;
+	//public AssetSounds sounds;
+	//public AssetMusic music;
 	
 	
 	public void init (AssetManager assetManager)
@@ -67,10 +68,11 @@ public class Assets implements Disposable, AssetErrorListener
 		fonts = new AssetFonts();
 		character = new AssetCharacter(atlas);
 		ground = new AssetGround(atlas);
-		fireball = new AssetFireball(atlas);
+		Apple = new AssetApple(atlas);
+		goldCoin = new AssetGoldCoin(atlas);
 		levelDecoration = new AssetLevelDecoration(atlas);
-		sounds = new AssetSounds(assetManager);
-		music = new AssetMusic(assetManager);
+		//sounds = new AssetSounds(assetManager);
+		//music = new AssetMusic(assetManager);
 	}
 	
 	//defines the character asset
@@ -80,7 +82,7 @@ public class Assets implements Disposable, AssetErrorListener
 		
 		public AssetCharacter (TextureAtlas atlas)
 		{
-			head = atlas.findRegion("character Sprite");
+			head = atlas.findRegion("character");
 		}
 	}
 	
@@ -91,21 +93,32 @@ public class Assets implements Disposable, AssetErrorListener
 		
 		public AssetGround (TextureAtlas atlas)
 		{
-			ground = atlas.findRegion("Cobblestone");
+			ground = atlas.findRegion("ground");
 		}
 	}
 	
 	//defines the fireball asset
-	public class AssetFireball
+	public class AssetApple
 	{
-		public final AtlasRegion fireball;
+		public final AtlasRegion Apple;
 		
-		public AssetFireball (TextureAtlas atlas)
+		public AssetApple (TextureAtlas atlas)
 		{
-			fireball = atlas.findRegion("Apple");
+			Apple = atlas.findRegion("Apple");
 		}
 		
 	}
+	
+	public class AssetGoldCoin 
+	{
+		public final AtlasRegion goldCoin;
+		
+		public AssetGoldCoin (TextureAtlas atlas)
+		{
+			goldCoin = atlas.findRegion("Coin");
+		}
+	}
+	
 	
 	public class AssetFonts
 	{
@@ -141,15 +154,15 @@ public class Assets implements Disposable, AssetErrorListener
 	{
 		public final AtlasRegion character;
 		public final AtlasRegion ground;
-		public final AtlasRegion fireball;
+		public final AtlasRegion apple;
 		public final AtlasRegion building;
 		
 		public AssetLevelDecoration (TextureAtlas atlas)
 		{
-			character = atlas.findRegion("character Sprite");
-			ground = atlas.findRegion("Cobblestone");
-			fireball = atlas.findRegion("Fireball");
-			building = atlas.findRegion("Office Building");
+			character = atlas.findRegion("character");
+			ground = atlas.findRegion("ground");
+			apple = atlas.findRegion("Apple");
+			building = atlas.findRegion("building");
 		}
 	}
 	
@@ -178,6 +191,8 @@ public class Assets implements Disposable, AssetErrorListener
 	 * Handles the sound assets
 	 *
 	 */
+	
+	/**
     public class AssetSounds 
     {
         public final Sound jump;
@@ -193,17 +208,19 @@ public class Assets implements Disposable, AssetErrorListener
             liveLost = am.get("sounds/live_lost.wav", Sound.class);
         }
     }
-    
+    */
     /**
      * Handles the music assets
      *
      */
-    public class AssetMusic
+    
+	/**
+	public class AssetMusic
     {
         public final Music song01;
         public AssetMusic (AssetManager am) {
             song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);
         }
     }
-	
+	*/
 }

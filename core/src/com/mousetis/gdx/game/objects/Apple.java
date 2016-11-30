@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mousetis.gdx.game.Assets.Assets;
 
-public class Fireball extends AbstractGameObject
+public class Apple extends AbstractGameObject
 {
-	private TextureRegion regFeather;
+	private TextureRegion regApple;
 	
 	public boolean collected;
 	
-	public Fireball()
+	public Apple()
 	{
 		init();
 	}
@@ -24,7 +24,7 @@ public class Fireball extends AbstractGameObject
 	{
 		dimension.set(0.5f, 0.5f);
 		
-		regFeather = Assets.instance.fireball.fireball;
+		regApple = Assets.instance.Apple.Apple;
 		
 		//set the bounding box for the feather
 		bounds.set(0, 0, dimension.x, dimension.y);
@@ -39,7 +39,7 @@ public class Fireball extends AbstractGameObject
 		if(collected) return;
 		
 		TextureRegion reg = null;
-		reg = regFeather;
+		reg = regApple;
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(),reg.getRegionHeight(), false, false);
 		
 		

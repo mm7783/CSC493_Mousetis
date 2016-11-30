@@ -9,8 +9,9 @@ import com.badlogic.gdx.utils.Array;
 import com.mousetis.gdx.game.objects.Ground;
 import com.mousetis.gdx.game.objects.AbstractGameObject;
 import com.mousetis.gdx.game.objects.Building;
-import com.mousetis.gdx.game.objects.Fireball;
+import com.mousetis.gdx.game.objects.Apple;
 import com.mousetis.gdx.game.objects.Character;
+import com.mousetis.gdx.game.objects.GoldCoin;
 
 public class Level 
 {
@@ -21,6 +22,7 @@ public class Level
 	public Level level;
 	public int lives;
 	public int score;
+	public Array<GoldCoin> goldcoins;
 	
 	//rectangles for collision detection
 	private Rectangle r1 = new Rectangle();
@@ -53,7 +55,7 @@ public class Level
 	
 	//objects
 	public Array<Ground> ground;
-	public Array<Fireball> fireballs;
+	public Array<Apple> apples;
 	
 	//decorations
 	public Building building;
@@ -66,7 +68,8 @@ public class Level
 		
 		//objects
 		ground = new Array <Ground>();
-		fireballs = new Array<Fireball>();
+		apples = new Array<Apple>();
+		goldcoins = new Array<GoldCoin>();
 		
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -74,7 +77,7 @@ public class Level
 		int lastPixel = -1;
 		for(int pixelY = 0; pixelY < pixmap.getHeight(); pixelY++)
 		{
-			for(int pixelX = 0; pixelX < pixmap.getHeight(); pixelY++)
+			for(int pixelX = 0; pixelX < pixmap.getHeight(); pixelX++)
 			{
 				AbstractGameObject obj = null;
 				float offsetHeight = 0;
@@ -119,12 +122,19 @@ public class Level
 				//feather
 				else if(BLOCK_TYPE.ITEM_FEATHER.sameColor(currentPixel))
 				{
-					obj = new Fireball();
+					obj = new Apple();
 					offsetHeight = -1.5f;
 					obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
-					fireballs.add((Fireball)obj);
+					apples.add((Apple)obj);
 				}
 				
+                // gold coin
+                else if (BLOCK_TYPE.ITEM_GOLD_COIN.sameColor(currentPixel)) {
+                    obj = new GoldCoin();
+                    offsetHeight = -1.5f;
+                    obj.position.set(pixelX, baseHeight * obj.dimension.y + offsetHeight);
+                    goldcoins.add((GoldCoin) obj);
+                }
 				
 				//unkown object/pixel color
 				else
@@ -134,7 +144,7 @@ public class Level
 					int b = 0xff & (currentPixel >>> 8); //blue color channel
 					int a = 0xff & currentPixel; //alpha control
 					
-					Gdx.app.error(TAG, "Unknown obkect at x<" + pixelX + "> y <" + pixelY + ">: r<" + r + "> g <" + g +  "> b <" + b + "> a <"+ a + ">" );
+					Gdx.app.error(TAG, "Unknown object at x<" + pixelX + "> y <" + pixelY + ">: r<" + r + "> g <" + g +  "> b <" + b + "> a <"+ a + ">" );
 				}
 				lastPixel = currentPixel;
 			}
@@ -174,8 +184,12 @@ public class Level
 			G.render(batch);
 		
 		//draw feathers
-		for(Fireball fireball : fireballs)
-			fireball.render(batch);
+		for(Apple apple : apples)
+			apple.render(batch);
+		
+        // Draw Gold Coins
+        for (GoldCoin goldCoin : goldcoins)
+            goldCoin.render(batch);
 		
 		//draw player character
 		character.render(batch);
@@ -184,7 +198,23 @@ public class Level
 
 	public void update(float deltaTime) 
 	{
-		// TODO Auto-generated method stub
+		//draw mountains
+		building.update(deltaTime);
+		
+		//draw rocks
+		for(Ground G : ground)
+			G.update(deltaTime);
+		
+		//draw feathers
+		for(Apple apple : apples)
+			apple.update(deltaTime);
+		
+        // Draw Gold Coins
+        for (GoldCoin goldCoin : goldcoins)
+            goldCoin.update(deltaTime);
+		
+		//draw player character
+		character.update(deltaTime);
 		
 	}
 	

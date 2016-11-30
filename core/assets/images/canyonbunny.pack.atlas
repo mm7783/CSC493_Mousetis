@@ -1,40 +1,40 @@
 
-canyonbunny.png
-size: 2048,1024
+canyonbunny.pack.png
+size: 512,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Apple
   rotate: false
   xy: 2, 2
-  size: 382, 498
-  orig: 382, 498
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+Coin
+  rotate: false
+  xy: 71, 92
+  size: 30, 30
+  orig: 30, 30
   offset: 0, 0
   index: -1
 building
   rotate: false
-  xy: 386, 430
+  xy: 2, 52
   size: 67, 70
   orig: 67, 70
   offset: 0, 0
   index: -1
-canyonbunny
-  rotate: false
-  xy: 2, 502
-  size: 1024, 512
-  orig: 1024, 512
-  offset: 0, 0
-  index: -1
 character
   rotate: false
-  xy: 1028, 708
+  xy: 260, 332
   size: 50, 48
   orig: 50, 48
   offset: 0, 0
   index: -1
 ground
   rotate: false
-  xy: 1028, 758
+  xy: 2, 124
   size: 256, 256
   orig: 256, 256
   offset: 0, 0

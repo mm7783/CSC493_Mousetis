@@ -82,7 +82,7 @@ import com.mousetis.gdx.game.Constants;
 		timeLeftFireballPowerUp = 0;
 		
 		//Particles
-		dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
+		//dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
  	}
  
  	/**
@@ -98,7 +98,7 @@ import com.mousetis.gdx.game.Constants;
 				*/
 				if (jumpKeyPressed)
 				{
-					AudioManager.instance.play(Assets.instance.sounds.jump);
+					//AudioManager.instance.play(Assets.instance.sounds.jump);
 					timeJumping = 0;
 					jumpState = JUMP_STATE.JUMP_RISING;
 					//Gdx.app.log(TAG,"RISING");

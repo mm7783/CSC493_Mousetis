@@ -18,7 +18,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 public class Main 
 {
 	
-		private static boolean rebuildAtlus = true;
+		private static boolean rebuildAtlus = false;
 		private static boolean drawDebugOutline = true;
 	
 	
@@ -27,11 +27,11 @@ public class Main
 		if(rebuildAtlus)
 		{
 			Settings settings = new Settings();
-			settings.maxWidth = 2048;
-			settings.maxHeight = 2048;
+			settings.maxWidth = 1024;
+			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny");
+			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.pack");
 		}
 		
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

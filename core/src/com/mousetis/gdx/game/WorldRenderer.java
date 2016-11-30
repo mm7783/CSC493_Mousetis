@@ -30,11 +30,6 @@ public class WorldRenderer implements Disposable {
 		this.worldController = worldController;
 	}
 	
-	public WorldRenderer(Game game) 
-	{
-	 		
-	}
-	
 	//initializes the world
 	private void init() 
 	{
@@ -57,8 +52,15 @@ public class WorldRenderer implements Disposable {
 
 	public void resize(int width, int height)
 	{
+		int num = 0;
+		num =+ 1;
+		int x;
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
-		camera.update();
+        camera.update();
+        cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
+        cameraGUI.viewportWidth = (Constants.VIEWPORT_GUI_HEIGHT / (float) height) * (float) width;
+        cameraGUI.position.set(cameraGUI.viewportWidth / 2, cameraGUI.viewportHeight / 2, 0);
+        cameraGUI.update();
 	}
 	
 	//method is self explanatory renders the world using a given sprite batch
@@ -196,7 +198,7 @@ public class WorldRenderer implements Disposable {
                     batch.setColor(1, 1, 1, 0.5f);
                 }
             }
-            batch.draw(Assets.instance.fireball.fireball, x, y, 50, 50, 100, 100, 0.35f, -0.35f, 0);
+            batch.draw(Assets.instance.Apple.Apple, x, y, 50, 50, 100, 100, 0.35f, -0.35f, 0);
             batch.setColor(1, 1, 1, 1);
             Assets.instance.fonts.defaultSmall.draw(batch, "" + (int)timeLeftFeatherPowerup, x + 60, y + 57);
         }

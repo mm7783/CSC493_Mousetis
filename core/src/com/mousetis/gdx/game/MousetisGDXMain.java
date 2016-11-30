@@ -13,7 +13,8 @@ import com.mousetis.gdx.game.Assets.Assets;
 import com.badlogic.gdx.assets.AssetManager;
 
 	
-	public class MousetisGDXMain implements ApplicationListener{
+public class MousetisGDXMain implements ApplicationListener
+{
 		private static final String TAG = MousetisGDXMain.class.getName();
 		
 		private WorldController worldController;
@@ -26,7 +27,7 @@ import com.badlogic.gdx.assets.AssetManager;
 			Assets.instance.init(new AssetManager());
 			//load preferences for audio stuff
 			GamePreferences.instance.load();
-			AudioManager.instance.play(Assets.instance.music.song01);
+			//AudioManager.instance.play(Assets.instance.music.song01);
 			//initialize controller and renderer
 			worldController = new WorldController();
 			worldRenderer = new WorldRenderer(worldController);
@@ -37,7 +38,8 @@ import com.badlogic.gdx.assets.AssetManager;
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			worldRenderer.render();
 		}
-		@Override public void resize (int width, int height) {
+		@Override public void resize (int width, int height) 
+		{
 			worldRenderer.resize(width, height);
 		}
 		@Override public void pause () { }

@@ -39,8 +39,8 @@ import com.mousetis.gdx.game.Constants;
  	public VIEW_DIRECTION viewDirection;
  	public float timeJumping;
  	public JUMP_STATE jumpState;
- 	public boolean hasFireballPowerUp;
- 	public float timeLeftFireballPowerUp;
+ 	public boolean hasApplePowerUp;
+ 	public float timeLeftApplePowerUp;
 	public Body body;
 	private Animation rightAnimation;
 	private Animation animation;
@@ -62,7 +62,7 @@ import com.mousetis.gdx.game.Constants;
  	 */
  	private void init() 
  	{
-		dimension.set(0.5f, 0.5f);
+		dimension.set(0.7f, 25f);
  		regHead = Assets.instance.character.head;
  		//center image on game object
  		origin.set(dimension.x / 2, dimension.y /2);
@@ -78,8 +78,8 @@ import com.mousetis.gdx.game.Constants;
  		jumpState = JUMP_STATE.FALLING;
  		timeJumping = 0;
  		//Power-ups
- 		hasFireballPowerUp = false;
-		timeLeftFireballPowerUp = 0;
+ 		hasApplePowerUp = false;
+		timeLeftApplePowerUp = 0;
 		
 		//Particles
 		//dustParticles.load(Gdx.files.internal("particles/dust.pfx"), Gdx.files.internal("particles"));
@@ -91,39 +91,28 @@ import com.mousetis.gdx.game.Constants;
  	 */
 	public void setJumping(boolean jumpKeyPressed)
 	{
-		/**
-		switch (jumpState)
-		{
-			case GROUNDED:
-				*/
-				if (jumpKeyPressed)
-				{
-					//AudioManager.instance.play(Assets.instance.sounds.jump);
-					timeJumping = 0;
-					jumpState = JUMP_STATE.JUMP_RISING;
-					//Gdx.app.log(TAG,"RISING");
-				}
-			/**
-				else if (velocity.x != 0)
-				{
-					//Gdx.app.log(TAG, "starting particles");
-					dustParticles.setPosition(position.x + dimension.x / 2, position.y+0.1f);
-					dustParticles.start();
-				}
-				else if (velocity.x == 0)
-				{
-					dustParticles.allowCompletion();
-				}
-				break;
-			case JUMP_RISING:
-				if (!jumpKeyPressed)
-					jumpState = JUMP_STATE.JUMP_FALLING;
-				break;
-			case FALLING:
-			case JUMP_FALLING:
-				break;
-		}
-		*/
+        switch (jumpState) 
+        {
+        case GROUNDED: // Character is standing on a platform
+            if (jumpKeyPressed) {
+                // Start counting jump time from the beginning
+                timeJumping = 0;
+                jumpState = JUMP_STATE.JUMP_RISING;
+            }
+            break;
+        case JUMP_RISING: // Rising in the air
+            if (!jumpKeyPressed)
+                jumpState = JUMP_STATE.JUMP_FALLING;
+            break;
+        case FALLING:// Falling down
+        case JUMP_FALLING: // Falling down after jump
+            if (jumpKeyPressed && hasApplePowerUp) 
+            {
+                timeJumping = JUMP_TIME_OFFSET_FLYING;
+                jumpState = JUMP_STATE.JUMP_RISING;
+            }
+            break;
+    }
 	}
  	
  	/**
@@ -139,34 +128,18 @@ import com.mousetis.gdx.game.Constants;
 		updateMotionY(deltaTime);
 
 		if (body != null)
-		{
-			// Gdx.app.log(TAG, "velY: "+velocity.y+" state: "+jumpState);
-			body.setLinearVelocity(velocity);
-			position.set(body.getPosition());
-		}
-		if (velocity.x != 0)
-		{
-			//Gdx.app.log(TAG, "velX: "+velocity.x+" viewDir: "+viewDirection);
-			if (velocity.x < 0)
-			{
-				if (animation != leftAnimation)
-				{
-					setAnimation(leftAnimation);
-				}
-				viewDirection = VIEW_DIRECTION.LEFT;
-			}
-			else if (velocity.x > 0)
-			{
-				if (animation != rightAnimation)
-					setAnimation(rightAnimation);
-				viewDirection = VIEW_DIRECTION.RIGHT;
-			}
-		}
-		else
-		{
-			setAnimation(restingAnimation);
-		}
-		dustParticles.update(deltaTime);
+		      super.update(deltaTime);
+        if (velocity.x != 0) {
+            viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
+        }
+        if (timeLeftApplePowerUp > 0) {
+            timeLeftApplePowerUp -= deltaTime;
+            if (timeLeftApplePowerUp < 0) {
+                // disable power-up
+                timeLeftApplePowerUp = 0;
+                hasApplePowerUp = false;
+            }
+        }
 	}
 
  		
@@ -181,10 +154,10 @@ import com.mousetis.gdx.game.Constants;
  	 */
  	public void setFireballPowerUp (boolean pickedUp)
  	{
- 		hasFireballPowerUp = pickedUp;
+ 		hasApplePowerUp = pickedUp;
  		if(pickedUp)
  		{
- 			timeLeftFireballPowerUp = Constants.ITEM_POWERUP_DURATION;
+ 			timeLeftApplePowerUp = Constants.ITEM_POWERUP_DURATION;
  			JUMP_TIME_OFFSET_FLYING = JUMP_TIME_OFFSET_FLYING * 2;
  			
  		}
@@ -232,7 +205,7 @@ import com.mousetis.gdx.game.Constants;
  	{
  		if(pickedUp)
  		{
- 			timeLeftFireballPowerUp = Constants.ITEM_FEATHER_POWERUP_DURATION;
+ 			timeLeftApplePowerUp = Constants.ITEM_FEATHER_POWERUP_DURATION;
  			JUMP_TIME_OFFSET_FLYING = JUMP_TIME_OFFSET_FLYING *2;
  			terminalVelocity.x =terminalVelocity.x * 2;
  			terminalVelocity.y =terminalVelocity.y * 2;
@@ -253,7 +226,7 @@ import com.mousetis.gdx.game.Constants;
          dustParticles.draw(batch);
          
          //set special color when game object has the feather
-         if(hasFireballPowerUp)
+         if(hasApplePowerUp)
          {
          	batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
          }

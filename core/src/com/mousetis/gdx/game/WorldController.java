@@ -38,7 +38,7 @@ public class WorldController extends InputAdapter{
 	public int score;
 	
 	// Box2D Collisions
-	public World myWorld;
+	public World b2world;
 	
 	public float livesVisual;
 	public float scoreVisual;
@@ -79,21 +79,19 @@ public class WorldController extends InputAdapter{
 		scoreVisual = score;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.character);
-	}
-	
-	//creates a procedureal pixmap
-	private Pixmap createProceduralPixmap(int width, int height) {
-		
-		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
-		pixmap.setColor(1,0,0,0.5f);
-		pixmap.fill();
-		pixmap.setColor(1,1,0,1);
-		pixmap.drawLine(0, 0, width, height);
-		pixmap.setColor(0,1,1,1);
-		pixmap.drawRectangle(0, 0, width, height);
-		return pixmap;
+		initPhysics();
 	}
 
+	//initiates the level
+	private void initLevel2()
+	{
+		score = 0;
+		scoreVisual = score;
+		level = new Level(Constants.LEVEL_02);
+		cameraHelper.setTarget(level.character);
+		initPhysics();
+	}
+	
 	/**
 	 * updates the world controller based on time
 	 * @param deltaTime
@@ -101,26 +99,24 @@ public class WorldController extends InputAdapter{
     public void update (float deltaTime) 
     {
         handleDebugInput(deltaTime);
-        if (isGameOver()) {
-            timeLeftGameOverDelay -= deltaTime;
-            if (timeLeftGameOverDelay< 0) backToMenu();
-        } else {
-            handleInputGame(deltaTime);
-        }
+        handleInputGame(deltaTime);
+        
         level.update(deltaTime);
         testCollisions();
+        b2world.step(deltaTime, 8, 3);
         cameraHelper.update(deltaTime);
-        if (!isGameOver() &&isPlayerInWater()) {
-        	//AudioManager.instance.play(Assets.instance.sounds.liveLost);
+
+        if (!isGameOver() && isPlayerInWater()) 
+        {
             lives--;
             if (isGameOver())
                 timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
             else
                 initLevel();
         }
-        if (livesVisual> lives)
+        if (livesVisual > lives)
             livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
-		if (scoreVisual< score)
+        if (scoreVisual < score)
             scoreVisual = Math.min(score, scoreVisual + 250 * deltaTime);
     }
 
@@ -263,9 +259,7 @@ public class WorldController extends InputAdapter{
 	private void onCollisionBunnyHeadWithRock(Ground rock) 
 	{
         Character character = level.character;
-        float heightDifference = Math.abs(character.position.y
-                - (rock.position.y
-                + rock.bounds.height));
+        float heightDifference = Math.abs(character.position.y - (rock.position.y + rock.bounds.height));
         if (heightDifference > 0.25f) 
         {
             boolean hitLeftEdge = character.position.x
@@ -322,17 +316,17 @@ public class WorldController extends InputAdapter{
 	
 	private void initPhysics()
 	{
-		if (myWorld != null)
-			myWorld.dispose();
-		myWorld = new World(new Vector2(0, -9.81f), true);
-		myWorld.setContactListener(new CollisionHandler(this));  // Not in the book
+		if (b2world != null)
+			b2world.dispose();
+		b2world = new World(new Vector2(0, -9.81f), true);
+		b2world.setContactListener(new CollisionHandler(this));  // Not in the book
 		Vector2 origin = new Vector2();
 		for (Ground pieceOfLand : level.ground)
 		{
 			BodyDef bodyDef = new BodyDef();
 			bodyDef.position.set(pieceOfLand.position);
 			bodyDef.type = BodyType.KinematicBody;
-			Body body = myWorld.createBody(bodyDef);
+			Body body = b2world.createBody(bodyDef);
 			//body.setType(BodyType.DynamicBody);
 			body.setUserData(pieceOfLand);
 			pieceOfLand.body = body;
@@ -352,7 +346,7 @@ public class WorldController extends InputAdapter{
 		bodyDef.position.set(player.position);
 		bodyDef.fixedRotation = true;
 
-		Body body = myWorld.createBody(bodyDef);
+		Body body = b2world.createBody(bodyDef);
 		body.setType(BodyType.DynamicBody);
 		body.setGravityScale(0.0f);
 		body.setUserData(player);

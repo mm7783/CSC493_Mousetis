@@ -20,7 +20,7 @@ public class GoldCoin extends AbstractGameObject
 
 	private void init() 
 	{
-		dimension.set(0.5f, 0.5f);
+		dimension.set(0.5f, 20f);
 		
 		regGoldCoin = Assets.instance.goldCoin.goldCoin;
 		

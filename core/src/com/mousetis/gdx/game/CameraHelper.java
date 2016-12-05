@@ -36,7 +36,8 @@ public class CameraHelper {
         position.y = Math.max(-1f, position.y);
     }
 
-    public void setPosition(float x, float y) {
+    public void setPosition(float x, float y)
+    {
         this.position.set(x, y);
     }
 
@@ -72,7 +73,8 @@ public class CameraHelper {
         return hasTarget() && this.target.equals(target);
     }
 
-    public void applyTo(OrthographicCamera camera) {
+    public void applyTo(OrthographicCamera camera) 
+    {
         camera.position.x = position.x;
         camera.position.y = position.y;
         camera.zoom = zoom;

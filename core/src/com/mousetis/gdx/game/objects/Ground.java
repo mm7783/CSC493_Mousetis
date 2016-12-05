@@ -29,7 +29,7 @@ public class Ground extends AbstractGameObject
 	//initalizes the object length texture to use ect.
 	private void init ()
 	{
-		dimension.set(1, 1.5f);
+		dimension.set(15, 10f);
 		regEdge = Assets.instance.ground.ground;
 		regMiddle = Assets.instance.ground.ground;
 		
@@ -44,7 +44,7 @@ public class Ground extends AbstractGameObject
 	//sets the length of the object
 	private void setLength(int i) 
 	{
-		this.length = length;
+		this.length = i;
 	}
 
 	//increases the length of the object

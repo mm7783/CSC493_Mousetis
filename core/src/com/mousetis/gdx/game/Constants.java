@@ -38,9 +38,11 @@ public class Constants {
 	
 	public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
 	
-	public static final String SKIN_CANYONBUNNY_UI = "images/images-ui.json";
+	public static final String SKIN_CANYONBUNNY_UI = "images/canyonbunny-ui.json";
 
 	public static final String PREFERENCES = "canyonbunny.prefs";
 
 	public static final float ITEM_POWERUP_DURATION = 10;
+
+	public static final String LEVEL_02 = null;
 }

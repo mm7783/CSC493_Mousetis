@@ -28,6 +28,7 @@ public class WorldRenderer implements Disposable {
 	public WorldRenderer (WorldController worldController) 
 	{
 		this.worldController = worldController;
+		init();
 	}
 	
 	//initializes the world
@@ -52,9 +53,7 @@ public class WorldRenderer implements Disposable {
 
 	public void resize(int width, int height)
 	{
-		int num = 0;
-		num =+ 1;
-		int x;
+		
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
         cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;

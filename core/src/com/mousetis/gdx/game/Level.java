@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.mousetis.gdx.game.objects.Ground;
 import com.mousetis.gdx.game.objects.AbstractGameObject;
-import com.mousetis.gdx.game.objects.Building;
 import com.mousetis.gdx.game.objects.Apple;
 import com.mousetis.gdx.game.objects.Character;
 import com.mousetis.gdx.game.objects.GoldCoin;
@@ -57,8 +56,7 @@ public class Level
 	public Array<Ground> ground;
 	public Array<Apple> apples;
 	
-	//decorations
-	public Building building;
+	
 	
 	//method that takes in the color data in order to determine what to draw there
 	private void init (String filename) 
@@ -150,10 +148,6 @@ public class Level
 			}
 		}
 		
-		//decoration
-		building = new Building(pixmap.getWidth());
-		building.position.set(-1, -1);
-		
 		//free memory
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "Level '"+ filename +"' loaded");
@@ -176,8 +170,6 @@ public class Level
  	 */
 	public void render (SpriteBatch batch) 
 	{
-		//draw mountains
-		building.render(batch);
 		
 		//draw rocks
 		for(Ground G : ground)
@@ -198,8 +190,6 @@ public class Level
 
 	public void update(float deltaTime) 
 	{
-		//draw mountains
-		building.update(deltaTime);
 		
 		//draw rocks
 		for(Ground G : ground)

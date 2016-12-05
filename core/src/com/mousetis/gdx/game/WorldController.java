@@ -118,7 +118,6 @@ public class WorldController extends InputAdapter{
             else
                 initLevel();
         }
-        level.building.updateScrollPosition(cameraHelper.getPosition());
         if (livesVisual> lives)
             livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
 		if (scoreVisual< score)

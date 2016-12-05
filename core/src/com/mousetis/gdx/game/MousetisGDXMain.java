@@ -9,6 +9,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.mousetis.gdx.game.Assets.Assets;
+import com.mousetis.gdx.game.screens.MenuScreen;
 import com.badlogic.gdx.assets.AssetManager;
 
 	
@@ -29,8 +30,7 @@ public class MousetisGDXMain extends Game
 			GamePreferences.instance.load();
 			//AudioManager.instance.play(Assets.instance.music.song01);
 			//initialize controller and renderer
-			worldController = new WorldController();
-			worldRenderer = new WorldRenderer(worldController);
+	        setScreen(new MenuScreen(this));
 		}
 		/**
 		@Override public void render () 

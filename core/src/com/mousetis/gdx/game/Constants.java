@@ -28,11 +28,11 @@ public class Constants {
 	//Amount of extra lives at level start
 	public static final int LIVES_START = 3;
 
-	public static final float ITEM_FEATHER_POWERUP_DURATION = 0;
+	public static final float ITEM_FEATHER_POWERUP_DURATION = 10;
 	
 	public static final float TIME_DELAY_GAME_OVER = 3;
 	
-	public static final String TEXTURE_ATLAS_UI = "images/images-ui.pack";
+	public static final String TEXTURE_ATLAS_UI = "images/canyonbunny-ui.pack.atlas";
 	
 	public static final String TEXTURE_LIBGDX_UI = "images/uiskin.atlas";
 	

@@ -164,6 +164,7 @@ public class WorldController extends InputAdapter{
 		if(keycode == Keys.R)
 		{
 			initLevel2();
+			System.out.println("hit r");
 			Gdx.app.debug(TAG, "Game world reset");
 		}
 		else if (keycode == Keys.ENTER)

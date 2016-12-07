@@ -4,19 +4,20 @@ package com.mousetis.gdx.game;
  * @author Matt Mousetis
  */
 
-
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
@@ -36,9 +37,12 @@ public class WorldController extends InputAdapter{
 	public Level level;
 	public int lives;
 	public int score;
+	private boolean newHighScore;
 	
 	// Box2D Collisions
 	public World b2world;
+	
+	public boolean level2;
 	
 	public float livesVisual;
 	public float scoreVisual;
@@ -54,17 +58,20 @@ public class WorldController extends InputAdapter{
 	{
 		init();
 		this.Game = game;
+		level2= false;
 	}
 	
 	public WorldController()
 	{
 		init();
+		level2= false;
+		newHighScore= false;
 	}
 	
 	//initiates this class
 	private void init() 
 	{
-		//Gdx.input.setInputProcessor(this);
+		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
 		livesVisual = lives;
@@ -77,6 +84,7 @@ public class WorldController extends InputAdapter{
 	{
 		score = 0;
 		scoreVisual = score;
+		GamePreferences.instance.load();
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.character);
 		initPhysics();
@@ -85,8 +93,8 @@ public class WorldController extends InputAdapter{
 	//initiates the level 2
 	private void initLevel2()
 	{
-		score = 0;
 		scoreVisual = score;
+		GamePreferences.instance.load();
 		level = new Level(Constants.LEVEL_02);
 		cameraHelper.setTarget(level.character);
 		initPhysics();
@@ -100,14 +108,13 @@ public class WorldController extends InputAdapter{
     {
         handleDebugInput(deltaTime);
         handleInputGame(deltaTime);
-        
+        cameraHelper.update(deltaTime);
         level.update(deltaTime);
         testCollisions();
-        b2world.step(deltaTime, 8, 3);
-        cameraHelper.update(deltaTime);
-
+        
         if (!isGameOver() && isPlayerInWater()) 
         {
+    		GamePreferences.instance.save();
             lives--;
             if (isGameOver())
                 timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -118,6 +125,24 @@ public class WorldController extends InputAdapter{
             livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
         if (scoreVisual < score)
             scoreVisual = Math.min(score, scoreVisual + 250 * deltaTime);
+        
+
+
+        if(score > GamePreferences.instance.Highscore3 && score < GamePreferences.instance.Highscore2)
+        {
+        	GamePreferences.instance.Highscore3 = score;
+        }
+        
+        if(score > GamePreferences.instance.Highscore2 && score < GamePreferences.instance.Highscore1)
+        {
+        	GamePreferences.instance.Highscore2 = score;
+        }
+        
+        if(score > GamePreferences.instance.Highscore1)
+        {
+        	GamePreferences.instance.Highscore1 = score;
+        }
+        newHighScore = true;
     }
 
 	//handles the input
@@ -160,12 +185,20 @@ public class WorldController extends InputAdapter{
 	
 	@Override
 	public boolean keyUp (int keycode)
-	{
+	{	
 		if(keycode == Keys.R)
 		{
-			initLevel2();
-			System.out.println("hit r");
-			Gdx.app.debug(TAG, "Game world reset");
+			if(level2 == false)
+			{	
+				initLevel2();
+				level2 = true;
+			}
+			else
+			{
+				init();
+				level2 = false;
+			}
+			Gdx.app.debug(TAG, "Level Switched");
 		}
 		else if (keycode == Keys.ENTER)
 		{
@@ -176,7 +209,17 @@ public class WorldController extends InputAdapter{
 		{
 			backToMenu();
 		}
-		
+		else if (keycode == Keys.S)
+		{
+			score = score + 10;
+		}
+
+		else if (keycode == Keys.Q)
+		{
+			System.out.println(""+GamePreferences.instance.Highscore1);
+			System.out.println(""+GamePreferences.instance.Highscore2);
+			System.out.println(""+GamePreferences.instance.Highscore3);
+		}	
 		return false;
 	}
 	
@@ -191,10 +234,12 @@ public class WorldController extends InputAdapter{
 			Character player = level.character;
 			if (Gdx.input.isKeyPressed(Keys.LEFT))
 			{
+				System.out.println("Hit left");
 				player.velocity.x = -player.terminalVelocity.x;
 			}
 			else if (Gdx.input.isKeyPressed(Keys.RIGHT))
 			{
+				System.out.println("Hit right");
 				player.velocity.x = player.terminalVelocity.x;
 			}
 
@@ -318,7 +363,7 @@ public class WorldController extends InputAdapter{
 	private void initPhysics()
 	{
 		if (b2world != null)
-			b2world.dispose();
+		b2world.dispose();
 		b2world = new World(new Vector2(0, -9.81f), true);
 		b2world.setContactListener(new CollisionHandler(this));  // Not in the book
 		Vector2 origin = new Vector2();
@@ -328,7 +373,7 @@ public class WorldController extends InputAdapter{
 			bodyDef.position.set(pieceOfLand.position);
 			bodyDef.type = BodyType.KinematicBody;
 			Body body = b2world.createBody(bodyDef);
-			//body.setType(BodyType.DynamicBody);
+			body.setType(BodyType.DynamicBody);
 			body.setUserData(pieceOfLand);
 			pieceOfLand.body = body;
 			PolygonShape polygonShape = new PolygonShape();
@@ -340,7 +385,7 @@ public class WorldController extends InputAdapter{
 			body.createFixture(fixtureDef);
 			polygonShape.dispose();
 		}
-
+		
 		// For PLayer
 		Character player = level.character;
 		BodyDef bodyDef = new BodyDef();
@@ -364,4 +409,5 @@ public class WorldController extends InputAdapter{
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
 	}
+	
 }

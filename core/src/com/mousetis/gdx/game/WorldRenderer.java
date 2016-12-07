@@ -40,8 +40,10 @@ public class WorldRenderer implements Disposable {
 		camera.update();
 		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
 		cameraGUI.position.set(0, 0, 0);
-		camera.setToOrtho(true); //flip y-axis
+		camera.setToOrtho(false); //flip y-axis
 		cameraGUI.update();
+		//camera.rotate(180);
+		cameraGUI.rotate(180);
 	}
 	
 	//renders the objects
@@ -52,8 +54,7 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void resize(int width, int height)
-	{
-		
+	{	
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT / height) * width;
         camera.update();
         cameraGUI.viewportHeight = Constants.VIEWPORT_GUI_HEIGHT;
@@ -95,6 +96,7 @@ public class WorldRenderer implements Disposable {
  			rederGuiFpsCounter(batch);
   		//draw game over text
   		renderGuiGameOverMessage(batch);
+  		renderHighScore(batch);
   		batch.end();
  	}
  	
@@ -110,8 +112,7 @@ public class WorldRenderer implements Disposable {
 			offsetX += MathUtils.sinDeg(shakeAlpha * 2.2f) * shakeDist;
 			offsetY += MathUtils.sinDeg(shakeAlpha * 2.9f) * shakeDist;
 		}
-		Assets.instance.fonts.defaultBig.draw(batch, "" + (int) worldController.scoreVisual, x + 75, y + 37);
-
+		Assets.instance.fonts.defaultBig.draw(batch, "Current Score: " + (int) worldController.scoreVisual, x + 75, y + 37);
 	}
 	
 	private void renderGuiExtraLife (SpriteBatch batch)
@@ -173,7 +174,7 @@ public class WorldRenderer implements Disposable {
         if (worldController.isGameOver()) {
             BitmapFont fontGameOver = Assets.instance.fonts.defaultBig;
             fontGameOver.setColor(1, 0.75f, 0.25f, 1);
-            fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, true);
+            fontGameOver.draw(batch, "GAME OVER", x, y-10, 0, Align.center, true);
             fontGameOver.setColor(1, 1, 1, 1);
         }
     }
@@ -200,6 +201,20 @@ public class WorldRenderer implements Disposable {
             batch.draw(Assets.instance.Apple.Apple, x, y, 50, 50, 100, 100, 0.35f, -0.35f, 0);
             batch.setColor(1, 1, 1, 1);
             Assets.instance.fonts.defaultSmall.draw(batch, "" + (int)timeLeftFeatherPowerup, x + 60, y + 57);
+        }
+    }
+    
+    private void renderHighScore(SpriteBatch batch) 
+    {
+        float x = cameraGUI.viewportWidth / 2;
+        float y = cameraGUI.viewportHeight / 2;
+        if (worldController.isGameOver()) {
+            BitmapFont fontGameOver = Assets.instance.fonts.defaultBig;
+            fontGameOver.setColor(1, 0.75f, 0.25f, 1);
+            fontGameOver.draw(batch, "1: " + GamePreferences.instance.Highscore1, x, y + 30, 0, Align.center, true);
+            fontGameOver.draw(batch, "2: " + GamePreferences.instance.Highscore2, x, y + 60, 0, Align.center, true);
+            fontGameOver.draw(batch, "3: " + GamePreferences.instance.Highscore3, x, y + 90, 0, Align.center, true);
+            fontGameOver.setColor(1, 1, 1, 1);
         }
     }
 }

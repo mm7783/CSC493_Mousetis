@@ -21,6 +21,9 @@ public class GamePreferences
     public int charSkin;
     public boolean showFpsCounter;
     private Preferences prefs;
+    public int Highscore1;
+    public int Highscore2;
+    public int Highscore3;
 
     // singleton: prevent instantiation from other classes
     private GamePreferences()
@@ -36,6 +39,9 @@ public class GamePreferences
     {
         sound = prefs.getBoolean("sound", true);
         music = prefs.getBoolean("music", true);
+        Highscore1 = prefs.getInteger("HighScore1");
+        Highscore2 = prefs.getInteger("HighScore2");
+        Highscore3 = prefs.getInteger("HighScore3");
         volSound = MathUtils.clamp(prefs.getFloat("volSound", 0.5f), 0.0f, 1.0f);
         volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.5f), 0.0f, 1.0f);
         charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
@@ -54,6 +60,9 @@ public class GamePreferences
         prefs.putFloat("volMusic", volMusic);
         prefs.putInteger("charSkin", charSkin);
         prefs.putBoolean("showFpsCounter", showFpsCounter);
+        prefs.putInteger("HighScore1", Highscore1);
+        prefs.putInteger("HighScore2", Highscore2);
+        prefs.putInteger("HighScore3", Highscore3);
         prefs.flush();
     }
     

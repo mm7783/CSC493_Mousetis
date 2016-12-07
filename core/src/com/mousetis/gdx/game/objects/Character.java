@@ -69,7 +69,7 @@ import com.mousetis.gdx.game.Constants;
  		//bounding box for collision detection
  		bounds.set(0, 0, dimension.x, dimension.y);
  		//set physics values
- 		terminalVelocity.set(3.0f, 4.0f);
+ 		terminalVelocity.set(15.0f, 16.0f);
  		friction.set(12.0f, 0.0f);
  		acceleration.set(0.0f, -25.0f);
  		//view direction
@@ -126,9 +126,8 @@ import com.mousetis.gdx.game.Constants;
 		//Gdx.app.log(TAG, "UP stateTime: "+stateTime);
 		updateMotionX(deltaTime);
 		updateMotionY(deltaTime);
-
-		if (body != null)
-		      super.update(deltaTime);
+		super.update(deltaTime);
+		      
         if (velocity.x != 0) {
             viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
         }
@@ -143,7 +142,8 @@ import com.mousetis.gdx.game.Constants;
 	}
 
  		
- 	private void setAnimation(Animation rightAnimation2) {
+ 	private void setAnimation(Animation rightAnimation2) 
+ 	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -171,33 +171,37 @@ import com.mousetis.gdx.game.Constants;
      @Override
      protected void updateMotionY (float deltaTime) {
          switch (jumpState) {
-             case GROUNDED:
-                 jumpState = JUMP_STATE.FALLING;
-                 break;
-             case JUMP_RISING:
-                 // Keep track of jump time
-                 timeJumping += deltaTime;
-                 // Jump time left?
-                 if (timeJumping <= JUMP_TIME_MAX) {
-                     // Still jumping
-                     velocity.y = terminalVelocity.y;
-                 }
-                 break;
-              case FALLING:
-                 break;
-             case JUMP_FALLING:
-                 // Add delta times to track jump time
-                 timeJumping += deltaTime;
-                 // Jump to minimal height if jump key was pressed too short
-                 if (timeJumping > 0 && timeJumping <= JUMP_TIME_MIN) {
-                     // Still jumping
-                     velocity.y = terminalVelocity.y;
-                 }
-         }
-         if (jumpState != JUMP_STATE.GROUNDED)
-         {
-        	 super.updateMotionY(deltaTime);
-         }    
+         case GROUNDED:
+             jumpState = JUMP_STATE.FALLING;
+             if (velocity.x != 0) {
+                 dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+                 dustParticles.start();
+             }
+             break;
+         case JUMP_RISING:
+             // Keep track of jump time
+             timeJumping += deltaTime;
+             // Jump time left?
+             if (timeJumping <= JUMP_TIME_MAX) {
+                 // Still jumping
+                 velocity.y = terminalVelocity.y;
+             }
+             break;
+         case FALLING:
+             break;
+         case JUMP_FALLING:
+             // Add delta times to track jump time
+             timeJumping += deltaTime;
+             // Jump to minimal height if jump key was pressed too short
+             if (timeJumping > 0 && timeJumping <= JUMP_TIME_MIN) {
+                 // Still jumping
+                 velocity.y = terminalVelocity.y;
+             }
+     }
+     if (jumpState != JUMP_STATE.GROUNDED) {
+         super.updateMotionY(deltaTime);
+
+     }   
     }
  	
  	public void hasFeatherPowerUp (boolean pickedUp) 

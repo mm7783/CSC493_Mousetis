@@ -112,7 +112,7 @@ import com.mousetis.gdx.game.Constants;
                 jumpState = JUMP_STATE.JUMP_RISING;
             }
             break;
-    }
+        }
 	}
  	
  	/**
@@ -196,7 +196,6 @@ import com.mousetis.gdx.game.Constants;
          }
          if (jumpState != JUMP_STATE.GROUNDED)
          {
-             dustParticles.allowCompletion();
         	 super.updateMotionY(deltaTime);
          }    
     }

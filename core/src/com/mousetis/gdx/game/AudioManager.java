@@ -57,8 +57,7 @@ public class AudioManager
      * @param pitch
      * @param pan
      */
-    public void play(Sound sound, float volume, float pitch,
-                     float pan) {
+    public void play(Sound sound, float volume, float pitch, float pan) {
         if (!GamePreferences.instance.sound) return;
         sound.play(GamePreferences.instance.volSound * volume, pitch, pan);
     }

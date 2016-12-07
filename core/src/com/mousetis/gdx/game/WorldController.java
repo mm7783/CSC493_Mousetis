@@ -64,7 +64,7 @@ public class WorldController extends InputAdapter{
 	//initiates this class
 	private void init() 
 	{
-		Gdx.input.setInputProcessor(this);
+		//Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
 		livesVisual = lives;
@@ -82,7 +82,7 @@ public class WorldController extends InputAdapter{
 		initPhysics();
 	}
 
-	//initiates the level
+	//initiates the level 2
 	private void initLevel2()
 	{
 		score = 0;
@@ -163,7 +163,7 @@ public class WorldController extends InputAdapter{
 	{
 		if(keycode == Keys.R)
 		{
-			init();
+			initLevel2();
 			Gdx.app.debug(TAG, "Game world reset");
 		}
 		else if (keycode == Keys.ENTER)
@@ -228,25 +228,25 @@ public class WorldController extends InputAdapter{
 		
 		
 		//test collision bunny head with feathers
-		for (Apple fireball : level.apples)
+		for (Apple apple : level.apples)
 		{
-			if(fireball.collected) continue;
-			r2.set(fireball.position.x, fireball.position.y, fireball.bounds.width, fireball.bounds.height);
+			if(apple.collected) continue;
+			r2.set(apple.position.x, apple.position.y, apple.bounds.width, apple.bounds.height);
 			if (!r1.overlaps(r2)) continue;
-			onCollisionCharacterWithFireball(fireball);
+			onCollisionCharacterWithFireball(apple);
 			break;
 		}
 	}
 	
 	/**
  	 * handles collision with the fireball
- 	 * @param fireball
+ 	 * @param apple
  	 */
- 	private void onCollisionCharacterWithFireball(Apple fireball) 
+ 	private void onCollisionCharacterWithFireball(Apple apple) 
  	{
-		fireball.collected = true;
+		apple.collected = true;
 		//AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
-		score += fireball.getScore();
+		score += apple.getScore();
 		level.character.setFireballPowerUp(true);
 		Gdx.app.log(TAG, "TURBO MODE");
 		
@@ -359,7 +359,7 @@ public class WorldController extends InputAdapter{
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
-		// fixtureDef.friction = 0.5f;
+		fixtureDef.friction = 0.5f;
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
 	}

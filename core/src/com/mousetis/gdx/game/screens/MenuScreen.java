@@ -29,6 +29,8 @@ import com.mousetis.gdx.game.Assets.Assets;
 import com.mousetis.gdx.game.AudioManager;
 import com.mousetis.gdx.game.Constants;
 import com.mousetis.gdx.game.GamePreferences;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import com.badlogic.gdx.math.Interpolation;
 
 
 /**

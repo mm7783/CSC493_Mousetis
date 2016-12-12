@@ -7,7 +7,9 @@ package com.mousetis.gdx.game.objects;
   import com.badlogic.gdx.graphics.g2d.SpriteBatch;
   import com.badlogic.gdx.math.Rectangle;
   import com.badlogic.gdx.math.Vector2;
-  import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.MathUtils;
+  import com.badlogic.gdx.graphics.g2d.Animation;
   
   public abstract class AbstractGameObject 
   {
@@ -24,6 +26,9 @@ package com.mousetis.gdx.game.objects;
  	public Vector2 acceleration;
  	public Rectangle bounds;
  	
+ 	public float stateTime;
+ 	public Animation animation;
+ 	
  
  	/**
  	 * contstructor for abstract game object
@@ -36,6 +41,8 @@ package com.mousetis.gdx.game.objects;
   		scale = new Vector2(1, 1);
   		rotation = 0;
  
+  	    Body body;
+  		
  		//objects current speed
  		velocity = new Vector2();
  		//max speed in positive and negative directions
@@ -101,7 +108,7 @@ package com.mousetis.gdx.game.objects;
  	 */
   	public void update(float deltaTime)
   	{
- 		
+ 		stateTime += deltaTime;
  		updateMotionX(deltaTime);
  		updateMotionY(deltaTime);
  		//move to new position
@@ -110,5 +117,11 @@ package com.mousetis.gdx.game.objects;
   	}
   	
   	public abstract void render (SpriteBatch batch);
+  	
+  	public void setAnimation(Animation animation)
+  	{
+  		this.animation = animation;
+  		stateTime = 0;
+  	}
  	
  }

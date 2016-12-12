@@ -31,8 +31,8 @@ public class Main
 			settings.maxHeight = 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			//TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.pack");
-			TexturePacker.process(settings, "assets-raw/images-ui", "../core/assets/images-ui", "canyonbunny-ui.pack");
+			TexturePacker.process(settings, "assets-raw/images", "../core/assets/images", "canyonbunny.pack");
+			//TexturePacker.process(settings, "assets-raw/images-ui", "../core/assets/images-ui", "canyonbunny-ui.pack");
 		}
 		
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();

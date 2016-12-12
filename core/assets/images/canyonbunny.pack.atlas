@@ -18,6 +18,13 @@ Coin
   orig: 30, 30
   offset: 0, 0
   index: -1
+Coin
+  rotate: false
+  xy: 260, 300
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
 building
   rotate: false
   xy: 2, 52

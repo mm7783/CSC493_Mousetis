@@ -141,8 +141,8 @@ import com.mousetis.gdx.game.Constants;
         }
 	}
 
- 		
- 	private void setAnimation(Animation rightAnimation2) 
+ 	@Override
+	public void setAnimation(Animation rightAnimation2) 
  	{
 		// TODO Auto-generated method stub
 		

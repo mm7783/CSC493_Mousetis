@@ -18,12 +18,16 @@ package com.mousetis.gdx.game.Assets;
 	import com.badlogic.gdx.graphics.Texture.TextureFilter;
 	import com.badlogic.gdx.audio.Music;
 	import com.badlogic.gdx.audio.Sound;
+	import com.badlogic.gdx.graphics.g2d.Animation;
+	import com.badlogic.gdx.utils.Array;
 
 public class Assets implements Disposable, AssetErrorListener
 {
 	public static final String TAG = Assets.class.getName();
 	
 	public static final Assets instance = new Assets();
+	
+
 	
 	private AssetManager assetManager;
 	
@@ -112,10 +116,17 @@ public class Assets implements Disposable, AssetErrorListener
 	public class AssetGoldCoin 
 	{
 		public final AtlasRegion goldCoin;
+		public final Animation animGoldCoin;
 		
 		public AssetGoldCoin (TextureAtlas atlas)
 		{
-			goldCoin = atlas.findRegion("Coin");
+            goldCoin = atlas.findRegion("Coin");
+            // Animation: Gold Coin
+            Array<AtlasRegion> regions = atlas.findRegions("Coin");
+            AtlasRegion region = regions.first();
+            for (int i = 0; i < 10; i++)
+                regions.insert(0, region);
+            animGoldCoin = new Animation(1.0f / 20.0f, regions, Animation.PlayMode.LOOP_PINGPONG);
 		}
 	}
 	
